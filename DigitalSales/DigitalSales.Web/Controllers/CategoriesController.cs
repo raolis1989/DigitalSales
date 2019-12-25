@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DigitalSales.Data;
 using DigitalSales.Entities.Warehouse;
+using DigitalSales.Web.Models.Warehouse.Category;
+using AutoMapper;
 
 namespace DigitalSales.Web.Controllers
 {
@@ -15,22 +17,36 @@ namespace DigitalSales.Web.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly DbContextDigitalSales _context;
+        private readonly IMapper _mapper;
 
-        public CategoriesController(DbContextDigitalSales context)
+        public CategoriesController(DbContextDigitalSales context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Categories
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
+        [HttpGet("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<CategoryViewModel>>> List()
         {
-            return await _context.Categories.ToListAsync();
+
+            var category= await _context.Categories.ToListAsync();
+            
+            if(category==null)
+            {
+                return NotFound();
+            }
+            return _mapper.Map<List<CategoryViewModel>>(category);
+
         }
 
         // GET: api/Categories/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(int id)
+        [HttpGet("[action]/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<CategoryViewModel>> ObtainCategory(int id)
         {
             var category = await _context.Categories.FindAsync(id);
 
@@ -39,7 +55,7 @@ namespace DigitalSales.Web.Controllers
                 return NotFound();
             }
 
-            return category;
+            return _mapper.Map<CategoryViewModel>(category);
         }
 
         // PUT: api/Categories/5
