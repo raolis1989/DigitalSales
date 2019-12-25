@@ -8,7 +8,14 @@ namespace DigitalSales.Data.Mapping.Warehouse
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            throw new System.NotImplementedException();
+            builder.ToTable("category")
+                .HasKey(c => c.IdCategory);
+
+            builder.Property(c => c.Name)
+                .HasMaxLength(50);
+
+            builder.Property(c => c.Description)
+                .HasMaxLength(256);
         }
     }
 }
