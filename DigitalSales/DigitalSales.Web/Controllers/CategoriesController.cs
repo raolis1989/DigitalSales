@@ -61,8 +61,8 @@ namespace DigitalSales.Web.Controllers
         // PUT: api/Categories/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(int id, Category category)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> UpdateCategory(int id, Category category)
         {
             if (id != category.IdCategory)
             {
