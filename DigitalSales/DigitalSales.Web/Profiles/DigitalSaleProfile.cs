@@ -14,6 +14,8 @@ namespace DigitalSales.Web.Profiles
         public DigitalSaleProfile()
         {
             this.CreateMap<Category, CategoryViewModel>().ReverseMap();
+            this.CreateMap<Category, AddViewModel>().ReverseMap();
+            this.CreateMap<Category, UpdateViewModel>().ReverseMap();
         }        
     }
 }

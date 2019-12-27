@@ -15,7 +15,7 @@ namespace DigitalSales.Entities.Warehouse
         
         [StringLength(256)]
         public string Description { get; set; }
-        public bool condition { get; set; }
+        public bool Condition { get; set; }
 
 
 

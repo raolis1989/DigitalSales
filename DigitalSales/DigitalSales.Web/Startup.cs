@@ -1,5 +1,7 @@
 using AutoMapper;
 using DigitalSales.Data;
+using DigitalSales.Data.Interfaces;
+using DigitalSales.Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +27,7 @@ namespace DigitalSales.Web
             services.AddControllers();
             services.AddDbContext<DbContextDigitalSales>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Conexion")));
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

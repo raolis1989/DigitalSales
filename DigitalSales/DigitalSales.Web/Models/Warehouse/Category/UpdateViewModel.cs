@@ -13,5 +13,7 @@ namespace DigitalSales.Web.Models.Warehouse.Category
 
         [StringLength(256)]
         public string Description { get; set; }
+
+        public bool Condition => true;
     }
 }

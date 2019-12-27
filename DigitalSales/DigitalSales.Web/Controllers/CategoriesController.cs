@@ -9,6 +9,8 @@ using DigitalSales.Data;
 using DigitalSales.Entities.Warehouse;
 using DigitalSales.Web.Models.Warehouse.Category;
 using AutoMapper;
+using DigitalSales.Data.Repository;
+using DigitalSales.Data.Interfaces;
 
 namespace DigitalSales.Web.Controllers
 {
@@ -18,11 +20,13 @@ namespace DigitalSales.Web.Controllers
     {
         private readonly DbContextDigitalSales _context;
         private readonly IMapper _mapper;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoriesController(DbContextDigitalSales context, IMapper mapper)
+        public CategoriesController(DbContextDigitalSales context, IMapper mapper, ICategoryRepository categoryRepository)
         {
             _context = context;
             _mapper = mapper;
+            _categoryRepository = categoryRepository;
         }
 
         // GET: api/Categories
@@ -32,14 +36,16 @@ namespace DigitalSales.Web.Controllers
         public async Task<ActionResult<IEnumerable<CategoryViewModel>>> List()
         {
 
-            var category= await _context.Categories.ToListAsync();
-            
-            if(category==null)
+            try
             {
-                return NotFound();
-            }
-            return _mapper.Map<List<CategoryViewModel>>(category);
+                var category = await _categoryRepository.ObtenerCategoriesAsync();
 
+                return _mapper.Map<List<CategoryViewModel>>(category);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
 
         // GET: api/Categories/5
@@ -65,7 +71,7 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateCategory(int id, UpdateViewModel category)
+        public async Task<ActionResult> UpdateCategory( UpdateViewModel category)
         {
 
             if (!ModelState.IsValid)
@@ -85,9 +91,12 @@ namespace DigitalSales.Web.Controllers
                 return NotFound();
             }
 
-            resultCategory = _mapper.Map<Category>(category);
+             resultCategory = _mapper.Map<Category>(category);
 
+            //resultCategory.Name = category.Name;
+            //resultCategory.Description = category.Description;
 
+           
             try
             {
                 await _context.SaveChangesAsync();
@@ -97,7 +106,7 @@ namespace DigitalSales.Web.Controllers
                 return BadRequest();
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Categories
@@ -114,6 +123,7 @@ namespace DigitalSales.Web.Controllers
             }
 
             var newCategory = _mapper.Map<Category>(model);
+            newCategory.Condition = true;
             _context.Categories.Add(newCategory);
             try
             {
@@ -164,7 +174,7 @@ namespace DigitalSales.Web.Controllers
         [HttpPut("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeactivateCategory(int id)
+        public async Task<ActionResult> DeactivateCategory(int id)
         {
  
             if (id <=  0)
@@ -183,7 +193,7 @@ namespace DigitalSales.Web.Controllers
                 return NotFound();
             }
 
-            resultCategory.condition = false;
+            resultCategory.Condition = false;
 
             try
             {
@@ -201,7 +211,7 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> ActivateCategory(int id)
+        public async Task<ActionResult> ActivateCategory(int id)
         {
 
             if (id <= 0)
@@ -220,7 +230,7 @@ namespace DigitalSales.Web.Controllers
                 return NotFound();
             }
 
-            resultCategory.condition = true;
+            resultCategory.Condition  = true;
 
             try
             {
