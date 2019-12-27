@@ -68,19 +68,17 @@ namespace DigitalSales.Web.Controllers
         public async Task<IActionResult> UpdateCategory(int id, UpdateViewModel category)
         {
 
-            if (id != category.IdCategory)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if(category.IdCategory<0)
+            if(category.IdCategory<=0)
             {
                 return BadRequest();
             }
 
             var resultCategory = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == category.IdCategory);
-
-           // _context.Entry(category).State = EntityState.Modified;
 
             if(resultCategory==null)
             {
@@ -165,22 +163,18 @@ namespace DigitalSales.Web.Controllers
 
         [HttpPut("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeactivateCategory(int id, UpdateViewModel category)
+        public async Task<IActionResult> DeactivateCategory(int id)
         {
-
-            if (id != category.IdCategory)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (category.IdCategory < 0)
+ 
+            if (id <=  0)
             {
                 return BadRequest();
             }
 
-            var resultCategory = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == category.IdCategory);
+       
+
+            var resultCategory = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == id);
 
             // _context.Entry(category).State = EntityState.Modified;
 
@@ -189,8 +183,7 @@ namespace DigitalSales.Web.Controllers
                 return NotFound();
             }
 
-            resultCategory = _mapper.Map<Category>(category);
-
+            resultCategory.condition = false;
 
             try
             {
@@ -201,10 +194,45 @@ namespace DigitalSales.Web.Controllers
                 return BadRequest();
             }
 
-            return NoContent();
+            return Ok();
         }
 
+        [HttpPut("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ActivateCategory(int id)
+        {
 
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+
+
+            var resultCategory = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == id);
+
+            // _context.Entry(category).State = EntityState.Modified;
+
+            if (resultCategory == null)
+            {
+                return NotFound();
+            }
+
+            resultCategory.condition = true;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
 
 
         private bool CategoryExists(int id)
