@@ -62,14 +62,33 @@ namespace DigitalSales.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateCategory(int id, Category category)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateCategory(int id, UpdateViewModel category)
         {
+
             if (id != category.IdCategory)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if(category.IdCategory<0)
             {
                 return BadRequest();
             }
 
-            _context.Entry(category).State = EntityState.Modified;
+            var resultCategory = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == category.IdCategory);
+
+           // _context.Entry(category).State = EntityState.Modified;
+
+            if(resultCategory==null)
+            {
+                return NotFound();
+            }
+
+            resultCategory = _mapper.Map<Category>(category);
+
 
             try
             {
@@ -77,14 +96,7 @@ namespace DigitalSales.Web.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest();
             }
 
             return NoContent();
@@ -93,8 +105,8 @@ namespace DigitalSales.Web.Controllers
         // POST: api/Categories
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        [HttpPost("[action]")]
+        public async Task<ActionResult<Category>> AddCategory(Category category)
         {
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
