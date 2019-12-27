@@ -106,29 +106,106 @@ namespace DigitalSales.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost("[action]")]
-        public async Task<ActionResult<Category>> AddCategory(Category category)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<Category>> AddCategory(AddViewModel model)
         {
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return CreatedAtAction("GetCategory", new { id = category.IdCategory }, category);
+            var newCategory = _mapper.Map<Category>(model);
+            _context.Categories.Add(newCategory);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         // DELETE: api/Categories/5
-        [HttpDelete("{id}")]
+        [HttpDelete("[action]/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<Category>> DeleteCategory(int id)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var category = await _context.Categories.FindAsync(id);
+
             if (category == null)
             {
                 return NotFound();
             }
 
             _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
 
-            return category;
+
+
+            return Ok(category);
         }
+
+        [HttpPut("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeactivateCategory(int id, UpdateViewModel category)
+        {
+
+            if (id != category.IdCategory)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (category.IdCategory < 0)
+            {
+                return BadRequest();
+            }
+
+            var resultCategory = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == category.IdCategory);
+
+            // _context.Entry(category).State = EntityState.Modified;
+
+            if (resultCategory == null)
+            {
+                return NotFound();
+            }
+
+            resultCategory = _mapper.Map<Category>(category);
+
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
+
+
+
 
         private bool CategoryExists(int id)
         {
