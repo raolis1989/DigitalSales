@@ -13,7 +13,7 @@ namespace DigitalSales.Data.Interfaces
         Task<Category> Agregar(Category category);
         Task<bool> Actualizar(Category category);
         Task<bool> Eliminar(int id);
-        Task<bool> Deactivate(Category category);
-        Task<bool> Activate(Category category);
+        Task<bool> Deactivate(int id);
+        Task<bool> Activate(int id);
     }
 }

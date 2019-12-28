@@ -20,9 +20,9 @@ namespace DigitalSales.Data.Repository
         }
 
 
-        public async Task<bool> Activate(Category category)
+        public async Task<bool> Activate(int id)
         {
-            var resultCategory = await ObtenerCategoryAsync(category.IdCategory);
+            var resultCategory = await ObtenerCategoryAsync(id);
             resultCategory.Condition = true;
 
             try
@@ -74,9 +74,9 @@ namespace DigitalSales.Data.Repository
            
         }
 
-        public async Task<bool> Deactivate(Category category)
+        public async Task<bool> Deactivate(int id)
         {
-            var resultCategory = await ObtenerCategoryAsync(category.IdCategory);
+            var resultCategory = await ObtenerCategoryAsync(id);
             resultCategory.Condition = false;
 
             try

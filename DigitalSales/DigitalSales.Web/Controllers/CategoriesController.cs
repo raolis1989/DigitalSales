@@ -54,7 +54,8 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<CategoryViewModel>> ObtainCategory(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _categoryRepository.ObtenerCategoryAsync(id);
+
 
             if (category == null)
             {
@@ -71,42 +72,17 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> UpdateCategory( UpdateViewModel category)
+        public async Task<ActionResult<UpdateViewModel>> UpdateCategory(int id, [FromBody] UpdateViewModel categoryobj)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if(category.IdCategory<=0)
-            {
-                return BadRequest();
-            }
-
-            var resultCategory = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == category.IdCategory);
-
-            if(resultCategory==null)
-            {
+            if (categoryobj == null)
                 return NotFound();
-            }
+            var category = _mapper.Map<Category>(categoryobj);
 
-             resultCategory = _mapper.Map<Category>(category);
-
-            //resultCategory.Name = category.Name;
-            //resultCategory.Description = category.Description;
-
-           
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
+            var resultado = await _categoryRepository.Actualizar(category);
+            if (!resultado)
                 return BadRequest();
-            }
 
-            return Ok();
+            return categoryobj;
         }
 
         // POST: api/Categories
@@ -115,26 +91,26 @@ namespace DigitalSales.Web.Controllers
         [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Category>> AddCategory(AddViewModel model)
+        public async Task<ActionResult<CategoryViewModel>> AddCategory(AddViewModel model)
         {
+
+
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var newCategory = _mapper.Map<Category>(model);
-            newCategory.Condition = true;
-            _context.Categories.Add(newCategory);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
+            var category = _mapper.Map<Category>(model);
+
+            var newCategory = await _categoryRepository.Agregar(category);
+
+            if(newCategory == null)
             {
                 return BadRequest();
             }
 
-            return Ok();
+            var newCategoryResult = _mapper.Map<CategoryViewModel>(newCategory);
+                 return CreatedAtAction(nameof(AddCategory), new { id = newCategoryResult.IdCategory }, newCategoryResult);
         }
 
         // DELETE: api/Categories/5
@@ -142,106 +118,68 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Category>> DeleteCategory(int id)
+        public async Task<ActionResult> DeleteCategory(int id)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            var category = await _context.Categories.FindAsync(id);
-
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            _context.Categories.Remove(category);
             try
             {
-                await _context.SaveChangesAsync();
+                var resultado = await _categoryRepository.Eliminar(id);
+                if(!resultado)
+                {
+                    return BadRequest();
+                }
+                return NoContent();
             }
-            catch (Exception ex)
+            catch (Exception excepcion)
             {
+
                 return BadRequest();
             }
 
-
-
-            return Ok(category);
         }
 
-        [HttpPut("[action]")]
+        [HttpPut("[action]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeactivateCategory(int id)
+        public async Task<ActionResult> DeactivateCategory(int id )
         {
- 
-            if (id <=  0)
-            {
-                return BadRequest();
-            }
-
-       
-
-            var resultCategory = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == id);
-
-            // _context.Entry(category).State = EntityState.Modified;
-
-            if (resultCategory == null)
-            {
-                return NotFound();
-            }
-
-            resultCategory.Condition = false;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var resultado = await _categoryRepository.Deactivate(id);
+                if (!resultado)
+                {
+                    return BadRequest();
+                }
+                return NoContent();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception excepcion)
             {
+
                 return BadRequest();
             }
-
-            return Ok();
         }
 
-        [HttpPut("[action]")]
+        [HttpPut("[action]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> ActivateCategory(int id)
+        public async Task<ActionResult<UpdateViewModel>> ActivateCategory(int id)
         {
-
-            if (id <= 0)
-            {
-                return BadRequest();
-            }
-
-
-
-            var resultCategory = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == id);
-
-            // _context.Entry(category).State = EntityState.Modified;
-
-            if (resultCategory == null)
-            {
-                return NotFound();
-            }
-
-            resultCategory.Condition  = true;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var resultado = await _categoryRepository.Activate(id);
+                if (!resultado)
+                {
+                    return BadRequest();
+                }
+                return NoContent();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception excepcion)
             {
+
                 return BadRequest();
             }
 
-            return Ok();
         }
 
 
