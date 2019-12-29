@@ -16,6 +16,7 @@ namespace DigitalSales.Entities.Warehouse
         [StringLength(256)]
         public string Description { get; set; }
         public bool Condition { get; set; }
+        public ICollection<Article> Articles { get; set; }
 
 
 

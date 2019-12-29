@@ -116,7 +116,6 @@ namespace DigitalSales.Data.Repository
         public async Task<List<Category>> ObtenerCategoriesAsync()
         {
             return await _context.Categories.OrderBy(c => c.Name)
-                          .Where(u => u.Condition == true)
                           .ToListAsync();
         }
 

@@ -11,6 +11,7 @@ using DigitalSales.Web.Models.Warehouse.Category;
 using AutoMapper;
 using DigitalSales.Data.Repository;
 using DigitalSales.Data.Interfaces;
+using Microsoft.AspNetCore.Cors;
 
 namespace DigitalSales.Web.Controllers
 {
@@ -31,6 +32,7 @@ namespace DigitalSales.Web.Controllers
 
         // GET: api/Categories
         [HttpGet("[action]")]
+        [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<CategoryViewModel>>> List()
@@ -69,6 +71,7 @@ namespace DigitalSales.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("[action]")]
+        [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -89,6 +92,7 @@ namespace DigitalSales.Web.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost("[action]")]
+        [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<CategoryViewModel>> AddCategory(AddViewModel model)
@@ -139,6 +143,7 @@ namespace DigitalSales.Web.Controllers
         }
 
         [HttpPut("[action]/{id}")]
+        [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeactivateCategory(int id )
@@ -160,6 +165,7 @@ namespace DigitalSales.Web.Controllers
         }
 
         [HttpPut("[action]/{id}")]
+        [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
