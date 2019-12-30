@@ -7,6 +7,7 @@ namespace DigitalSales.Data
     public class DbContextDigitalSales: DbContext
     {
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Article> Articles { get; set; }
         public DbContextDigitalSales(DbContextOptions<DbContextDigitalSales> options) : base(options)
         {
 
@@ -17,6 +18,7 @@ namespace DigitalSales.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new CategoryMap());
+            modelBuilder.ApplyConfiguration(new ArticleMap());
         }
     }
 }
