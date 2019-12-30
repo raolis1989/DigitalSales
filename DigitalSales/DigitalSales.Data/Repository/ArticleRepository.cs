@@ -1,5 +1,6 @@
 ﻿using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Warehouse;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,12 @@ namespace DigitalSales.Data.Repository
 {
     public class ArticleRepository : IArticleRepository
     {
+        private readonly DbContextDigitalSales _context;
+
+        public ArticleRepository(DbContextDigitalSales context)
+        {
+            _context = context;
+        }
         public Task<Article> AddArticle(Article article)
         {
             throw new NotImplementedException();
@@ -19,14 +26,19 @@ namespace DigitalSales.Data.Repository
             throw new NotImplementedException();
         }
 
-        public Task<Article> ObtainArticleAsync(int id)
+        public async Task<Article> ObtainArticleAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Articles
+                .Include(c => c.Category)
+                .SingleOrDefaultAsync(c => c.idArcticle == id);
+                
         }
 
-        public Task<List<Article>> ObtainArticlesAsync()
+        public async Task<List<Article>> ObtainArticlesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Articles.Include(a => a.Category)
+                .ToListAsync();
+
         }
     }
 }
