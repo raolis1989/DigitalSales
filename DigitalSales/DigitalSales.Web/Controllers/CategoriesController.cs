@@ -19,13 +19,13 @@ namespace DigitalSales.Web.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly DbContextDigitalSales _context;
+
         private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepository;
 
-        public CategoriesController(DbContextDigitalSales context, IMapper mapper, ICategoryRepository categoryRepository)
+        public CategoriesController( IMapper mapper, ICategoryRepository categoryRepository)
         {
-            _context = context;
+
             _mapper = mapper;
             _categoryRepository = categoryRepository;
         }
@@ -189,9 +189,6 @@ namespace DigitalSales.Web.Controllers
         }
 
 
-        private bool CategoryExists(int id)
-        {
-            return _context.Categories.Any(e => e.IdCategory == id);
-        }
+
     }
 }
