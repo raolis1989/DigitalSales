@@ -16,31 +16,80 @@ namespace DigitalSales.Data.Repository
         {
             _context = context;
         }
-        public Task<Article> AddArticle(Article article)
+
+        public Task<bool> Activate(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Eliminar(int id)
+
+
+        public async Task<Article> AddArticle(Article article)
+        {
+            article.Condition = true;
+            _context.Add(article);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+
+            return article;
+        }
+
+        public Task<bool> Deactivate(int id)
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
 
         public async Task<Article> ObtainArticleAsync(int id)
         {
             return await _context.Articles
-                .Include(c => c.Category.Name)
+                .Include(c => c.Category)
                 .SingleOrDefaultAsync(c => c.IdArticle == id);
                 
         }
 
         public async Task<List<Article>> ObtainArticlesAsync()
         {
-            var sdsd= await _context.Articles.Include(a => a.Category)
+            return await _context.Articles.Include(a => a.Category)
                 .ToListAsync();
 
-            return sdsd;
+        
 
+        }
+
+        public async Task<bool> Update(Article article)
+        {
+            var resultArticle = await ObtainArticleAsync(article.IdArticle);
+            resultArticle.idCategory = article.idCategory;
+            resultArticle.Name = article.Name;
+            resultArticle.Code = article.Code;
+            resultArticle.Price_Sale = article.Price_Sale;
+            resultArticle.Stock = article.Stock;
+            resultArticle.Description = article.Description;
+
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+           
         }
     }
 }

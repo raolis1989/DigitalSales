@@ -52,7 +52,7 @@ namespace DigitalSales.Data.Repository
 
                 return false;
             }
-            return false;
+
         }
 
         public async Task<Category> Agregar(Category category)

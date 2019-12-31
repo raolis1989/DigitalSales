@@ -11,9 +11,11 @@ namespace DigitalSales.Data.Interfaces
         Task<List<Article>> ObtainArticlesAsync();
 
         Task<Article> ObtainArticleAsync(int id);
-
+        Task<bool> Update(Article article);
         Task<Article> AddArticle(Article article);
-        Task<bool> Eliminar(int id);
-        
+        Task<bool> Delete(int id);
+        Task<bool> Deactivate(int id);
+        Task<bool> Activate(int id);
+
     }
 }

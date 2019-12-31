@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DigitalSales.Data.Interfaces;
+using DigitalSales.Entities.Warehouse;
 using DigitalSales.Web.Models.Warehouse.Article;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -36,23 +37,7 @@ namespace DigitalSales.Web.Controllers
             {
                 var articles = await _articleRepository.ObtainArticlesAsync();
 
-                //foreach (var element in articles)
-                //{
-                //    var article = new ArticleViewModel
-                //    {
-                //        IdArticle = element.IdArticle,
-                //        IdCategory = element.idCategory,
-                //        Category = element.Category.Name,
-                //        Code = element.Code,
-                //        Name = element.Name,
-                //        Price_Sale = element.Price_Sale,
-                //        Stock = element.Stock,
-                //        Description= element.Description
-   
-                //        };
-                //}
-
-                    return _mapper.Map<List<ArticleViewModel>>(articles);
+                return _mapper.Map<List<ArticleViewModel>>(articles);
             }
             catch (Exception ex)
             {
@@ -75,6 +60,54 @@ namespace DigitalSales.Web.Controllers
             }
 
             return _mapper.Map<ArticleViewModel>(article);
+        }
+
+
+        [HttpPut("[action]")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UpdateViewModel>> UpdateArticle(int id, [FromBody] UpdateViewModel articleobj)
+        {
+            if (articleobj == null)
+                return NotFound();
+            var article = _mapper.Map<Article>(articleobj);
+
+            var resultado = await _articleRepository.Update(article);
+            if (!resultado)
+                return BadRequest();
+
+            return articleobj;
+        }
+
+        // POST: api/Categories
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [HttpPost("[action]")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ArticleViewModel>> AddCategory(AddViewModel model)
+        {
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var article = _mapper.Map<Article>(model);
+
+            var newArticle = await _articleRepository.AddArticle(article);
+
+            if (newArticle == null)
+            {
+                return BadRequest();
+            }
+
+            var newArticleResult = _mapper.Map<ArticleViewModel>(newArticle);
+            return CreatedAtAction(nameof(AddCategory), new { id = newArticleResult.IdArticle }, newArticleResult);
         }
     }
 }
