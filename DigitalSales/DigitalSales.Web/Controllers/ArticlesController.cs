@@ -109,5 +109,51 @@ namespace DigitalSales.Web.Controllers
             var newArticleResult = _mapper.Map<ArticleViewModel>(newArticle);
             return CreatedAtAction(nameof(AddCategory), new { id = newArticleResult.IdArticle }, newArticleResult);
         }
+
+        [HttpPut("[action]/{id}")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> DeactivateArticle(int id)
+        {
+            try
+            {
+                var resultado = await _articleRepository.Deactivate(id);
+                if (!resultado)
+                {
+                    return BadRequest();
+                }
+                return NoContent();
+            }
+            catch (Exception excepcion)
+            {
+
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("[action]/{id}")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UpdateViewModel>> ActivateArticle(int id)
+        {
+            try
+            {
+                var resultado = await _articleRepository.Activate(id);
+                if (!resultado)
+                {
+                    return BadRequest();
+                }
+                return NoContent();
+            }
+            catch (Exception excepcion)
+            {
+
+                return BadRequest();
+            }
+
+        }
     }
 }

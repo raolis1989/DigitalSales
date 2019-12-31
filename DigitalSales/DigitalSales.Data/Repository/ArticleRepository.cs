@@ -17,9 +17,20 @@ namespace DigitalSales.Data.Repository
             _context = context;
         }
 
-        public Task<bool> Activate(int id)
+        public async  Task<bool> Activate(int id)
         {
-            throw new NotImplementedException();
+            var resultArticle = await ObtainArticleAsync(id);
+            resultArticle.Condition = false;
+
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
         }
 
 
@@ -41,9 +52,21 @@ namespace DigitalSales.Data.Repository
             return article;
         }
 
-        public Task<bool> Deactivate(int id)
+        public async Task<bool> Deactivate(int id)
         {
-            throw new NotImplementedException();
+            var resultArticle = await ObtainArticleAsync(id);
+            resultArticle.Condition = false;
+
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+           
         }
 
         public Task<bool> Delete(int id)
