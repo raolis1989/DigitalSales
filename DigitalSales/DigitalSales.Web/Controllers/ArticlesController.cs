@@ -36,7 +36,23 @@ namespace DigitalSales.Web.Controllers
             {
                 var articles = await _articleRepository.ObtainArticlesAsync();
 
-                return _mapper.Map<List<ArticleViewModel>>(articles);
+                //foreach (var element in articles)
+                //{
+                //    var article = new ArticleViewModel
+                //    {
+                //        IdArticle = element.IdArticle,
+                //        IdCategory = element.idCategory,
+                //        Category = element.Category.Name,
+                //        Code = element.Code,
+                //        Name = element.Name,
+                //        Price_Sale = element.Price_Sale,
+                //        Stock = element.Stock,
+                //        Description= element.Description
+   
+                //        };
+                //}
+
+                    return _mapper.Map<List<ArticleViewModel>>(articles);
             }
             catch (Exception ex)
             {

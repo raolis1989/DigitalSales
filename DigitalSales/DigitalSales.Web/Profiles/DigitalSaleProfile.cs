@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DigitalSales.Web.Models.Warehouse.Article;
 
 namespace DigitalSales.Web.Profiles
 {
@@ -16,6 +17,7 @@ namespace DigitalSales.Web.Profiles
             this.CreateMap<Category, CategoryViewModel>().ReverseMap();
             this.CreateMap<Category, AddViewModel>().ReverseMap();
             this.CreateMap<Category, UpdateViewModel>().ReverseMap();
+            this.CreateMap<Article, ArticleViewModel>().ReverseMap();
         }        
     }
 }

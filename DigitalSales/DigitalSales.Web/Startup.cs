@@ -28,6 +28,7 @@ namespace DigitalSales.Web
             services.AddDbContext<DbContextDigitalSales>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Conexion")));
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddCors(options => {
                 options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });

@@ -8,9 +8,13 @@ namespace DigitalSales.Data.Mapping.Warehouse
     {
         public void Configure(EntityTypeBuilder<Article> builder)
         {
-            builder.ToTable("Article")
-                .HasKey(a => a.idArcticle);
-            
+            builder.ToTable("article")
+                .HasKey(a => a.IdArticle);
+
+            builder.HasOne(d => d.Category)
+                .WithMany(p => p.Articles)
+                .HasForeignKey(d => d.idCategory);
+
         }
     }
 }

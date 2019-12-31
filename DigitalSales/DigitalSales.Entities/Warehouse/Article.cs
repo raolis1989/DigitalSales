@@ -4,7 +4,7 @@ namespace DigitalSales.Entities.Warehouse
 {
     public class Article
     {
-        public int idArcticle { get; set; }
+        public int IdArticle { get; set; }
         [Required]
         public int idCategory { get; set; }
         public string Code { get; set; }
@@ -15,7 +15,9 @@ namespace DigitalSales.Entities.Warehouse
         public decimal Price_Sale { get; set; }
         [Required]
         public int Stock { get; set; }
+        public string Description { get; set; }
         public bool Condition { get; set; }
         public Category Category { get; set; }
+        public string CategoryName => Category.Name;
     }
 }

@@ -29,15 +29,17 @@ namespace DigitalSales.Data.Repository
         public async Task<Article> ObtainArticleAsync(int id)
         {
             return await _context.Articles
-                .Include(c => c.Category)
-                .SingleOrDefaultAsync(c => c.idArcticle == id);
+                .Include(c => c.Category.Name)
+                .SingleOrDefaultAsync(c => c.IdArticle == id);
                 
         }
 
         public async Task<List<Article>> ObtainArticlesAsync()
         {
-            return await _context.Articles.Include(a => a.Category)
+            var sdsd= await _context.Articles.Include(a => a.Category)
                 .ToListAsync();
+
+            return sdsd;
 
         }
     }
