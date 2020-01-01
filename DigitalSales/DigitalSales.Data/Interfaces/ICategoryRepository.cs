@@ -15,5 +15,6 @@ namespace DigitalSales.Data.Interfaces
         Task<bool> Eliminar(int id);
         Task<bool> Deactivate(int id);
         Task<bool> Activate(int id);
+        Task<List<Category>> ObtainCategoriesActiveAsync();
     }
 }

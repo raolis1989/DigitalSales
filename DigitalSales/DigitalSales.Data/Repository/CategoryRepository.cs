@@ -119,6 +119,12 @@ namespace DigitalSales.Data.Repository
                           .ToListAsync();
         }
 
- 
+        public async Task<List<Category>> ObtainCategoriesActiveAsync()
+        {
+            return await _context.Categories.Where(c => c.Condition == true)
+                                        .OrderBy(c => c.Name)
+                                         .ToListAsync();
+
+        }
     }
 }

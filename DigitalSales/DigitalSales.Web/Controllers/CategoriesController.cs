@@ -50,6 +50,24 @@ namespace DigitalSales.Web.Controllers
             }
         }
 
+        [HttpGet("[action]")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<SelectViewModel>>> SelectActive()
+        {
+            try
+            {
+                var category = await _categoryRepository.ObtainCategoriesActiveAsync();
+
+                return _mapper.Map<List<SelectViewModel>>(category);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
         // GET: api/Categories/5
         [HttpGet("[action]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
