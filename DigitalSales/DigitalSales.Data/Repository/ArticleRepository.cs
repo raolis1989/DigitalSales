@@ -11,10 +11,12 @@ namespace DigitalSales.Data.Repository
     public class ArticleRepository : IArticleRepository
     {
         private readonly DbContextDigitalSales _context;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ArticleRepository(DbContextDigitalSales context)
+        public ArticleRepository(DbContextDigitalSales context, ICategoryRepository categoryRepository)
         {
             _context = context;
+            _categoryRepository = categoryRepository;
         }
 
         public async  Task<bool> Activate(int id)
@@ -38,6 +40,7 @@ namespace DigitalSales.Data.Repository
         public async Task<Article> AddArticle(Article article)
         {
             article.Condition = true;
+
             _context.Add(article);
             try
             {
@@ -48,6 +51,10 @@ namespace DigitalSales.Data.Repository
 
                 return null;
             }
+
+            var category = await _categoryRepository.ObtenerCategoryAsync(article.idCategory);
+
+            article.Category = category;
 
             return article;
         }
