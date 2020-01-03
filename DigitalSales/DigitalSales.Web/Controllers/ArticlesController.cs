@@ -137,7 +137,7 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UpdateViewModel>> ActivateArticle(int id)
+        public async Task<ActionResult> ActivateArticle(int id)
         {
             try
             {

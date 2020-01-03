@@ -22,7 +22,7 @@ namespace DigitalSales.Data.Repository
         public async  Task<bool> Activate(int id)
         {
             var resultArticle = await ObtainArticleAsync(id);
-            resultArticle.Condition = false;
+            resultArticle.Condition = true;
 
             try
             {
