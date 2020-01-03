@@ -1,5 +1,6 @@
 ﻿using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Users;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,19 +10,62 @@ namespace DigitalSales.Data.Repository
 {
     public class RoleRepository : IRoleRepository
     {
-        public Task<bool> Activate(int id)
+        private readonly DbContextDigitalSales _context;
+        private readonly IRoleRepository _roleRepository;
+
+        public RoleRepository( DbContextDigitalSales context, IRoleRepository roleRepository)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _roleRepository = roleRepository;
         }
 
-        public Task<Role> AddRole(Role role)
+
+        public async Task<bool> Activate(int id)
         {
-            throw new NotImplementedException();
+            var resultRole = await ObtainRoleAsync(id);
+            resultRole.Condition = true;
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
         }
 
-        public Task<bool> Deactivate(int id)
+        public async  Task<Role> AddRole(Role role)
         {
-            throw new NotImplementedException();
+            role.Condition = true;
+
+            _context.Add(role);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+
+            return role;
+        }
+
+        public async Task<bool> Deactivate(int id)
+        {
+            var resultRole = await ObtainRoleAsync(id);
+            resultRole.Condition = false;
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
         }
 
         public Task<bool> Delete(int id)
@@ -29,19 +73,33 @@ namespace DigitalSales.Data.Repository
             throw new NotImplementedException();
         }
 
-        public Task<Role> ObtainRoleAsync(int id)
+        public async Task<Role> ObtainRoleAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Roles
+                .SingleOrDefaultAsync(c => c.idRole == id);
         }
 
-        public Task<List<Role>> ObtainRolesAsync()
+        public async Task<List<Role>> ObtainRolesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Roles.
+                ToListAsync();
         }
 
-        public Task<bool> UpdateRole(Role role)
+        public async Task<bool> UpdateRole(Role role)
         {
-            throw new NotImplementedException();
+            var resultRole = await ObtainRoleAsync(role.idRole);
+            resultRole.Name = role.Name;
+            resultRole.Description = role.Description;
+
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
         }
     }
 }
