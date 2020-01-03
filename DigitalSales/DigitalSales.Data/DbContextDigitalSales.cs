@@ -1,4 +1,6 @@
-﻿using DigitalSales.Data.Mapping.Warehouse;
+﻿using DigitalSales.Data.Mapping.Users;
+using DigitalSales.Data.Mapping.Warehouse;
+using DigitalSales.Entities.Users;
 using DigitalSales.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +10,7 @@ namespace DigitalSales.Data
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbContextDigitalSales(DbContextOptions<DbContextDigitalSales> options) : base(options)
         {
 
@@ -19,6 +22,7 @@ namespace DigitalSales.Data
 
             modelBuilder.ApplyConfiguration(new CategoryMap());
             modelBuilder.ApplyConfiguration(new ArticleMap());
+            modelBuilder.ApplyConfiguration(new RoleMap());
         }
     }
 }

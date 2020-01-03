@@ -10,6 +10,8 @@ namespace DigitalSales.Entities.Users
         public int idRole { get; set; }
         [Required]
         public string Name { get; set; }
+        [StringLength(256)]
         public string Description { get; set; }
+        public bool Condition { get; set; }
     }
 }

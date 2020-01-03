@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mapping\Users\" />
     <Folder Include="Mapping\Sales\" />
   </ItemGroup>
 
