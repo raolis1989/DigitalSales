@@ -129,8 +129,14 @@ namespace DigitalSales.Data.Repository
             resultUser.Address = user.Address;
             resultUser.Phone = user.Phone;
             resultUser.Email = user.Email;
-            resultUser.Password_Hash = user.Password_Hash;
-            resultUser.Password_Salt = user.Password_Salt;
+            if(user.Password_Hash != null || user.Password_Salt != null)
+            {
+                resultUser.Password_Hash = user.Password_Hash;
+                resultUser.Password_Salt = user.Password_Salt;
+            }
+
+             
+        
 
 
             try

@@ -75,6 +75,14 @@ namespace DigitalSales.Web.Controllers
                 return NotFound();
             var user = _mapper.Map<User>(userobj);
 
+            if (userobj.ActPassword==true)
+            {
+                var resultPassword = await _userRepository.CrearPasswordHash(userobj.Password);
+
+                user.Password_Hash = resultPassword.Item1;
+                user.Password_Salt = resultPassword.Item2;
+            }
+
             var resultado = await _userRepository.Update(user);
             if (!resultado)
                 return BadRequest();
