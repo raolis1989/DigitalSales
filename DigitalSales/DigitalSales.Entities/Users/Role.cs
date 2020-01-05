@@ -13,5 +13,7 @@ namespace DigitalSales.Entities.Users
         [StringLength(256)]
         public string Description { get; set; }
         public bool Condition { get; set; }
+
+        public ICollection<User> Users { get; set; }
     }
 }

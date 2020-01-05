@@ -3,6 +3,7 @@ using DigitalSales.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,18 +12,17 @@ namespace DigitalSales.Data.Repository
     public class RoleRepository : IRoleRepository
     {
         private readonly DbContextDigitalSales _context;
-        private readonly IRoleRepository _roleRepository;
 
-        public RoleRepository( DbContextDigitalSales context, IRoleRepository roleRepository)
+        public RoleRepository( DbContextDigitalSales context)
         {
             _context = context;
-            _roleRepository = roleRepository;
+
         }
 
 
         public async Task<bool> Activate(int id)
         {
-            var resultRole = await ObtainRoleAsync(id);
+            var resultRole = await  ObtainRoleAsync(id);
             resultRole.Condition = true;
             try
             {
@@ -77,6 +77,13 @@ namespace DigitalSales.Data.Repository
         {
             return await _context.Roles
                 .SingleOrDefaultAsync(c => c.idRole == id);
+        }
+
+        public async Task<List<Role>> ObtainRolesActiveAsync()
+        {
+            return await _context.Roles.Where(c => c.Condition == true)
+                                        .OrderBy(c => c.Name)
+                                         .ToListAsync();
         }
 
         public async Task<List<Role>> ObtainRolesAsync()

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DigitalSales.Web.Models.Users
+namespace DigitalSales.Web.Models.Users.Role
 {
     public class AddViewModel
     {

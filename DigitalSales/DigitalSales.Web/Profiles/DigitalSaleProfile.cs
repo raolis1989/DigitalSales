@@ -6,6 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DigitalSales.Web.Models.Warehouse.Article;
+using DigitalSales.Entities.Users;
+using DigitalSales.Web.Models.Users;
+using DigitalSales.Web.Models.Users.Role;
 
 namespace DigitalSales.Web.Profiles
 {
@@ -21,6 +24,10 @@ namespace DigitalSales.Web.Profiles
             this.CreateMap<Article, ArticleViewModel>().ReverseMap();
             this.CreateMap<Article, Models.Warehouse.Article.AddViewModel>().ReverseMap();
             this.CreateMap<Article, Models.Warehouse.Article.UpdateViewModel>().ReverseMap();
+            this.CreateMap<Role, RoleViewModel>().ReverseMap();
+            this.CreateMap<Role, Models.Users.Role.AddViewModel>().ReverseMap();
+            this.CreateMap<Role, Models.Users.Role.UpdateViewModel>().ReverseMap();
+            this.CreateMap<Role, Models.Users.Role.SelectViewModel>().ReverseMap();
         }        
     }
 }

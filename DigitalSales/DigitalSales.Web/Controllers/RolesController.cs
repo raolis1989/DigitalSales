@@ -6,6 +6,7 @@ using AutoMapper;
 using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Users;
 using DigitalSales.Web.Models.Users;
+using DigitalSales.Web.Models.Users.Role;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -46,23 +47,23 @@ namespace DigitalSales.Web.Controllers
             }
         }
 
-        //[HttpGet("[action]")]
-        //[EnableCors()]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //public async Task<ActionResult<IEnumerable<SelectViewModel>>> SelectActive()
-        //{
-        //    try
-        //    {
-        //        var category = await _roleRepository.ObtainCategoriesActiveAsync();
+        [HttpGet("[action]")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<SelectViewModel>>> SelectActive()
+        {
+            try
+            {
+                var rol = await _roleRepository.ObtainRolesActiveAsync();
 
-        //        return _mapper.Map<List<SelectViewModel>>(category);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+                return _mapper.Map<List<SelectViewModel>>(rol);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
 
         // GET: api/Categories/5
         [HttpGet("[action]/{id}")]
