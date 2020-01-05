@@ -30,6 +30,7 @@ namespace DigitalSales.Web
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddCors(options => {
                 options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 
 namespace DigitalSales.Data.Repository
@@ -36,6 +37,10 @@ namespace DigitalSales.Data.Repository
         public async Task<User> AddUser(User user)
         {
             user.Condition = true;
+             
+      
+            
+
             _context.Add(user);
 
             try
@@ -49,11 +54,34 @@ namespace DigitalSales.Data.Repository
 
             }
 
-            var role = await _roleRepository.ObtainRoleAsync(user.IdRol);
+            var role = await _roleRepository.ObtainRoleAsync(user.idRole);
             user.Role = role;
             return user;
             
 
+            
+        }
+
+        public async Task<bool> CheckEmail(string email)
+        {
+            var resultEmail = email.ToLower();
+
+            return await  _context.Users.AnyAsync(e => e.Email == resultEmail);
+        }
+
+        public async  Task<Tuple<byte[], byte[]>> CrearPasswordHash(string password)
+        {
+             byte[] passwordSalt , passwordHash;
+
+            using(var hmac  =  new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+
+
+            }
+            return  new Tuple<byte[], byte[]>(passwordHash, passwordSalt);
+            
             
         }
 
@@ -94,15 +122,15 @@ namespace DigitalSales.Data.Repository
         public async Task<bool> Update(User user)
         {
             var resultUser = await ObtainUserAsync(user.IdUser);
-            resultUser.IdRol = user.IdRol;
+            resultUser.idRole = user.idRole;
             resultUser.Name = user.Name;
-            resultUser.TypeDocument = user.TypeDocument;
-            resultUser.NumDocument = user.NumDocument;
+            resultUser.Type_Document = user.Type_Document;
+            resultUser.Num_Document = user.Num_Document;
             resultUser.Address = user.Address;
             resultUser.Phone = user.Phone;
             resultUser.Email = user.Email;
-            resultUser.PasswordHash = user.PasswordHash;
-            resultUser.PasswordSalt = user.PasswordSalt;
+            resultUser.Password_Hash = user.Password_Hash;
+            resultUser.Password_Salt = user.Password_Salt;
 
 
             try

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DigitalSales.Data.Interfaces;
+using DigitalSales.Entities.Users;
+using DigitalSales.Web.Models.Users.User;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,14 +31,14 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<ArticleViewModel>>> List()
+        public async Task<ActionResult<IEnumerable<UserViewModel>>> List()
         {
 
             try
             {
-                var articles = await _articleRepository.ObtainArticlesAsync();
+                var users = await _userRepository.ObtainUsersAsync();
 
-                return _mapper.Map<List<ArticleViewModel>>(articles);
+                return _mapper.Map<List<UserViewModel>>(users);
             }
             catch (Exception ex)
             {
@@ -48,17 +50,17 @@ namespace DigitalSales.Web.Controllers
         [HttpGet("[action]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ArticleViewModel>> ObtainArticle(int id)
+        public async Task<ActionResult<UserViewModel>> ObtainUser(int id)
         {
-            var article = await _articleRepository.ObtainArticleAsync(id);
+            var user = await _userRepository.ObtainUserAsync(id);
 
 
-            if (article == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return _mapper.Map<ArticleViewModel>(article);
+            return _mapper.Map<UserViewModel>(user);
         }
 
 
@@ -67,17 +69,17 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<UpdateViewModel>> UpdateArticle(int id, [FromBody] UpdateViewModel articleobj)
+        public async Task<ActionResult<UpdateViewModel>> UpdateUser(int id, [FromBody] UpdateViewModel userobj)
         {
-            if (articleobj == null)
+            if (userobj == null)
                 return NotFound();
-            var article = _mapper.Map<Article>(articleobj);
+            var user = _mapper.Map<User>(userobj);
 
-            var resultado = await _articleRepository.Update(article);
+            var resultado = await _userRepository.Update(user);
             if (!resultado)
                 return BadRequest();
 
-            return articleobj;
+            return userobj;
         }
 
         // POST: api/Categories
@@ -87,7 +89,7 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<ArticleViewModel>> AddArticle(AddViewModel model)
+        public async Task<ActionResult<UserViewModel>> AddUser(AddViewModel model)
         {
 
 
@@ -96,28 +98,42 @@ namespace DigitalSales.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var article = _mapper.Map<Article>(model);
+            
+            if(await _userRepository.CheckEmail(model.Email))
+            {
+                return BadRequest("El email ya existe");
+            }
 
-            var newArticle = await _articleRepository.AddArticle(article);
 
-            if (newArticle == null)
+
+            var resultPass = await _userRepository.CrearPasswordHash(model.Password);
+
+            var user = _mapper.Map<User>(model);
+
+            user.Password_Hash = resultPass.Item1;
+            user.Password_Salt = resultPass.Item2;
+
+
+            var newUser = await _userRepository.AddUser(user);
+
+            if (newUser == null)
             {
                 return BadRequest();
             }
 
-            var newArticleResult = _mapper.Map<ArticleViewModel>(newArticle);
-            return CreatedAtAction(nameof(AddArticle), new { id = newArticleResult.IdArticle }, newArticleResult);
+            var newUserResult = _mapper.Map<UserViewModel>(newUser);
+            return CreatedAtAction(nameof(AddUser), new { id = newUserResult.IdUser }, newUserResult);
         }
 
         [HttpPut("[action]/{id}")]
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> DeactivateArticle(int id)
+        public async Task<ActionResult> DeactivateUser(int id)
         {
             try
             {
-                var resultado = await _articleRepository.Deactivate(id);
+                var resultado = await _userRepository.Deactivate(id);
                 if (!resultado)
                 {
                     return BadRequest();
@@ -136,11 +152,11 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> ActivateArticle(int id)
+        public async Task<ActionResult> ActivateUser(int id)
         {
             try
             {
-                var resultado = await _articleRepository.Activate(id);
+                var resultado = await _userRepository.Activate(id);
                 if (!resultado)
                 {
                     return BadRequest();

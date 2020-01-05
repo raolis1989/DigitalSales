@@ -14,6 +14,10 @@ namespace DigitalSales.Data.Mapping.Users
             builder.ToTable("role")
                 .HasKey(r => r.idRole);
 
+     
+
+
+
 
         }
     }

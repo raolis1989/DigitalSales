@@ -14,6 +14,10 @@ namespace DigitalSales.Data.Mapping.Users
             builder.ToTable("users")
                  .HasKey(u => u.IdUser);
 
+            builder.HasOne(d => d.Role)
+                  .WithMany(p => p.Users)
+                  .HasForeignKey(d => d.idRole);
+
         }
     }
 }

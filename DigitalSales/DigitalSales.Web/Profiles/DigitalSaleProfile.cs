@@ -21,13 +21,19 @@ namespace DigitalSales.Web.Profiles
             this.CreateMap<Category, Models.Warehouse.Category.AddViewModel > ().ReverseMap();
             this.CreateMap<Category, Models.Warehouse.Category.UpdateViewModel>().ReverseMap();
             this.CreateMap<Category, Models.Warehouse.Category.SelectViewModel>().ReverseMap();
+            
             this.CreateMap<Article, ArticleViewModel>().ReverseMap();
             this.CreateMap<Article, Models.Warehouse.Article.AddViewModel>().ReverseMap();
             this.CreateMap<Article, Models.Warehouse.Article.UpdateViewModel>().ReverseMap();
+            
             this.CreateMap<Role, RoleViewModel>().ReverseMap();
             this.CreateMap<Role, Models.Users.Role.AddViewModel>().ReverseMap();
             this.CreateMap<Role, Models.Users.Role.UpdateViewModel>().ReverseMap();
             this.CreateMap<Role, Models.Users.Role.SelectViewModel>().ReverseMap();
+
+            this.CreateMap<User, Models.Users.User.UserViewModel>().ReverseMap();
+            this.CreateMap<User, Models.Users.User.AddViewModel>().ReverseMap();
+            this.CreateMap<User, Models.Users.User.UpdateViewModel>().ReverseMap();
         }        
     }
 }
