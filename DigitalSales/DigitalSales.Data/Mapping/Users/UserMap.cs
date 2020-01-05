@@ -12,7 +12,7 @@ namespace DigitalSales.Data.Mapping.Users
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("users")
-                 .HasKey(u => u.idUser);
+                 .HasKey(u => u.IdUser);
 
         }
     }

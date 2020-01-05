@@ -1,0 +1,158 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using DigitalSales.Data.Interfaces;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DigitalSales.Web.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsersController : ControllerBase
+    {
+
+        private readonly IMapper _mapper;
+        private readonly IUserRepository _userRepository;
+
+        public UsersController(IMapper mapper, IUserRepository userRepository)
+        {
+            _mapper = mapper;
+            _userRepository = userRepository;
+        }
+
+        // GET: api/Categories
+        [HttpGet("[action]")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<ArticleViewModel>>> List()
+        {
+
+            try
+            {
+                var articles = await _articleRepository.ObtainArticlesAsync();
+
+                return _mapper.Map<List<ArticleViewModel>>(articles);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        // GET: api/Categories/5
+        [HttpGet("[action]/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ArticleViewModel>> ObtainArticle(int id)
+        {
+            var article = await _articleRepository.ObtainArticleAsync(id);
+
+
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<ArticleViewModel>(article);
+        }
+
+
+        [HttpPut("[action]")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UpdateViewModel>> UpdateArticle(int id, [FromBody] UpdateViewModel articleobj)
+        {
+            if (articleobj == null)
+                return NotFound();
+            var article = _mapper.Map<Article>(articleobj);
+
+            var resultado = await _articleRepository.Update(article);
+            if (!resultado)
+                return BadRequest();
+
+            return articleobj;
+        }
+
+        // POST: api/Categories
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // more details see https://aka.ms/RazorPagesCRUD.
+        [HttpPost("[action]")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<ArticleViewModel>> AddArticle(AddViewModel model)
+        {
+
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var article = _mapper.Map<Article>(model);
+
+            var newArticle = await _articleRepository.AddArticle(article);
+
+            if (newArticle == null)
+            {
+                return BadRequest();
+            }
+
+            var newArticleResult = _mapper.Map<ArticleViewModel>(newArticle);
+            return CreatedAtAction(nameof(AddArticle), new { id = newArticleResult.IdArticle }, newArticleResult);
+        }
+
+        [HttpPut("[action]/{id}")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> DeactivateArticle(int id)
+        {
+            try
+            {
+                var resultado = await _articleRepository.Deactivate(id);
+                if (!resultado)
+                {
+                    return BadRequest();
+                }
+                return NoContent();
+            }
+            catch (Exception excepcion)
+            {
+
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("[action]/{id}")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> ActivateArticle(int id)
+        {
+            try
+            {
+                var resultado = await _articleRepository.Activate(id);
+                if (!resultado)
+                {
+                    return BadRequest();
+                }
+                return NoContent();
+            }
+            catch (Exception excepcion)
+            {
+
+                return BadRequest();
+            }
+
+        }
+    }
+}
