@@ -10,8 +10,8 @@ namespace DigitalSales.Web.Models.Users.User
         public int IdUser { get; set; }
         public int IdRole { get; set; }
         public string Name { get; set; }
-        public string TypeDocument { get; set; }
-        public string NumDocument { get; set; }
+        public string Type_Document { get; set; }
+        public string Num_Document { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
 
