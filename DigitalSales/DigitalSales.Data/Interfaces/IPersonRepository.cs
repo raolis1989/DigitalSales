@@ -10,11 +10,11 @@ namespace DigitalSales.Data.Interfaces
     {
         Task<List<Person>> ObtainPersonsAsync();
         Task<Person> ObtainPersonAsync(int id);
-        Task<Person> Agregar(Person category);
-        Task<bool> Actualizar(Person category);
-        Task<bool> Eliminar(int id);
+        Task<Person> Add(Person category);
+        Task<bool> Update(Person category);
+        Task<bool> Delete(int id);
         Task<bool> Deactivate(int id);
         Task<bool> Activate(int id);
-        Task<List<Person>> ObtainCategoriesActiveAsync();
+       
     }
 }

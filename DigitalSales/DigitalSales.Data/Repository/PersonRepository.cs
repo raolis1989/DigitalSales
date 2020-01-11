@@ -1,8 +1,9 @@
 ﻿using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Sales;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,44 +11,105 @@ namespace DigitalSales.Data.Repository
 {
     public class PersonRepository : IPersonRepository
     {
-        public Task<bool> Activate(int id)
+        private readonly DbContextDigitalSales _context;
+
+        public PersonRepository(DbContextDigitalSales context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<bool> Actualizar(Person category)
+        public async Task<bool> Activate(int id)
         {
-            throw new NotImplementedException();
+            var resultPerson = await ObtainPersonAsync(id);
+            resultPerson.Condition = true;
+
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+
         }
 
-        public Task<Person> Agregar(Person category)
+        public async Task<bool> Update(Person person)
         {
-            throw new NotImplementedException();
+            var resultPerson = await ObtainPersonAsync(person.IdPerson);
+           
+
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
         }
 
-        public Task<bool> Deactivate(int id)
+        public async Task<Person> Add(Person person)
         {
-            throw new NotImplementedException();
+            person.Condition = true;
+            _context.Add(person);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+
+            return person;
         }
 
-        public Task<bool> Eliminar(int id)
+        public async Task<bool> Deactivate(int id)
         {
-            throw new NotImplementedException();
+            var resultResult = await ObtainPersonAsync(id);
+            resultResult.Condition = false;
+
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
         }
 
-        public Task<List<Person>> ObtainCategoriesActiveAsync()
+
+        public async Task<Person> ObtainPersonAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Persons
+                                .SingleOrDefaultAsync(c => c.IdPerson == id);
         }
 
-        public Task<Person> ObtainPersonAsync(int id)
+        public async Task<List<Person>> ObtainPersonsAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Persons.OrderBy(c => c.Name)
+                                .ToListAsync();
         }
 
-        public Task<List<Person>> ObtainPersonsAsync()
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var resultPerson = await ObtainPersonAsync(id);
+
+            _context.Remove(resultPerson);
+            try
+            {
+                return (await _context.SaveChangesAsync() > 0 ? true : false);
+            }
+            catch (Exception excepcion)
+            {
+                return false;
+            }
         }
     }
 }

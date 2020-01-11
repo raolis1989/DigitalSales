@@ -34,7 +34,7 @@ namespace DigitalSales.Data.Repository
 
                 return false;
             }
-            return false;
+           
         }
 
         public async Task<bool> Actualizar(Category category)
