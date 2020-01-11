@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DigitalSales.Entities.Sales
+namespace DigitalSales.Data.Interfaces
 {
-    public class Persona
+    public interface IPersonRepository
     {
     }
 }

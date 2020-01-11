@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DigitalSales.Data.Repository
+namespace DigitalSales.Entities.Sales
 {
-    public class PersonaRepository
+    public class Person
     {
+
     }
 }
