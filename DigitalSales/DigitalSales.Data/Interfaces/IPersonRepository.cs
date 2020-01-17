@@ -8,13 +8,12 @@ namespace DigitalSales.Data.Interfaces
 {
     public interface IPersonRepository
     {
-        Task<List<Person>> ObtainPersonsAsync();
+        Task<List<Person>> ObtainPersonsAsync(string type);
         Task<Person> ObtainPersonAsync(int id);
         Task<Person> Add(Person category);
         Task<bool> Update(Person category);
         Task<bool> Delete(int id);
-        Task<bool> Deactivate(int id);
-        Task<bool> Activate(int id);
-       
+        Task<bool> CheckEmail(string email);
+
     }
 }

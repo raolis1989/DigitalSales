@@ -18,22 +18,6 @@ namespace DigitalSales.Data.Repository
             _context = context;
         }
 
-        public async Task<bool> Activate(int id)
-        {
-            var resultPerson = await ObtainPersonAsync(id);
-            resultPerson.Condition = true;
-
-            try
-            {
-                return await _context.SaveChangesAsync() > 0 ? true : false;
-            }
-            catch (Exception ex)
-            {
-
-                return false;
-            }
-
-        }
 
         public async Task<bool> Update(Person person)
         {
@@ -53,7 +37,7 @@ namespace DigitalSales.Data.Repository
 
         public async Task<Person> Add(Person person)
         {
-            person.Condition = true;
+          
             _context.Add(person);
             try
             {
@@ -68,22 +52,6 @@ namespace DigitalSales.Data.Repository
             return person;
         }
 
-        public async Task<bool> Deactivate(int id)
-        {
-            var resultResult = await ObtainPersonAsync(id);
-            resultResult.Condition = false;
-
-            try
-            {
-                return await _context.SaveChangesAsync() > 0 ? true : false;
-            }
-            catch (Exception ex)
-            {
-
-                return false;
-            }
-        }
-
 
         public async Task<Person> ObtainPersonAsync(int id)
         {
@@ -91,9 +59,9 @@ namespace DigitalSales.Data.Repository
                                 .SingleOrDefaultAsync(c => c.IdPerson == id);
         }
 
-        public async Task<List<Person>> ObtainPersonsAsync()
+        public async Task<List<Person>> ObtainPersonsAsync(string type)
         {
-            return await _context.Persons.OrderBy(c => c.Name)
+            return await _context.Persons.Where(c=>c.Type_person==type).OrderBy(c => c.Name)
                                 .ToListAsync();
         }
 
@@ -110,6 +78,13 @@ namespace DigitalSales.Data.Repository
             {
                 return false;
             }
+        }
+
+        public async Task<bool> CheckEmail(string email)
+        {
+            var resultEmail = email.ToLower();
+
+            return await _context.Persons.AnyAsync(e => e.Email == resultEmail);
         }
     }
 }

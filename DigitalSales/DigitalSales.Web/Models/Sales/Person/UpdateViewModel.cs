@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace DigitalSales.Entities.Sales
+namespace DigitalSales.Web.Models.Sales.Person
 {
-    public class Person
+    public class UpdateViewModel
     {
         public int IdPerson { get; set; }
         [Required]
         public string Type_person { get; set; }
-
         [Required]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre de la persona debe tener mas de 3 caracteres y menos de 100 caracteres")]
         public string Name { get; set; }
