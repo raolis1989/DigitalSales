@@ -17,12 +17,20 @@ namespace DigitalSales.Data.Repository
         {
             _context = context;
         }
-
+    
 
         public async Task<bool> Update(Person person)
         {
             var resultPerson = await ObtainPersonAsync(person.IdPerson);
-           
+
+            resultPerson.Name = person.Name;
+            resultPerson.Type_document = person.Type_document;
+            resultPerson.Type_person = person.Type_person;
+            resultPerson.Email = person.Email;
+            resultPerson.Phone = person.Phone;
+            resultPerson.Num_document = person.Num_document;
+            resultPerson.Address = person.Address;
+
 
             try
             {

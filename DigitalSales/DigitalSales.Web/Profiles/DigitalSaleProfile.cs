@@ -9,6 +9,7 @@ using DigitalSales.Web.Models.Warehouse.Article;
 using DigitalSales.Entities.Users;
 using DigitalSales.Web.Models.Users;
 using DigitalSales.Web.Models.Users.Role;
+using DigitalSales.Entities.Sales;
 
 namespace DigitalSales.Web.Profiles
 {
@@ -34,6 +35,10 @@ namespace DigitalSales.Web.Profiles
             this.CreateMap<User, Models.Users.User.UserViewModel>().ReverseMap();
             this.CreateMap<User, Models.Users.User.AddViewModel>().ReverseMap();
             this.CreateMap<User, Models.Users.User.UpdateViewModel>().ReverseMap();
+
+            this.CreateMap<Person, Models.Sales.Person.PersonViewModel>().ReverseMap();
+            this.CreateMap<Person, Models.Sales.Person.AddViewModel>().ReverseMap();
+            this.CreateMap<Person, Models.Sales.Person.UpdateViewModel>().ReverseMap();
         }        
     }
 }
