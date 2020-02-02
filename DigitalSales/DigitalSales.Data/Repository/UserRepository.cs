@@ -3,6 +3,7 @@ using DigitalSales.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Unicode;
@@ -116,7 +117,7 @@ namespace DigitalSales.Data.Repository
 
         public async Task<User> ObtainUserByEmail(string email)
         {
-            return await _context.Users
+            return await _context.Users.Where(c=>c.Condition==true)
                             .Include(c => c.Role)
                             .SingleOrDefaultAsync(c => c.Email == email);
         }

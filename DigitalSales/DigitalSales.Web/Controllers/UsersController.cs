@@ -6,6 +6,7 @@ using AutoMapper;
 using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Users;
 using DigitalSales.Web.Models.Users.User;
+using DigitalSales.Web.Utils;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,13 @@ namespace DigitalSales.Web.Controllers
 
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly Helpers _helper;
 
-        public UsersController(IMapper mapper, IUserRepository userRepository)
+        public UsersController(IMapper mapper, IUserRepository userRepository, Helpers helper)
         {
             _mapper = mapper;
             _userRepository = userRepository;
+            _helper = helper;
         }
 
         // GET: api/Categories
@@ -206,6 +209,12 @@ namespace DigitalSales.Web.Controllers
             }
 
 
+            var resClaims = _helper.GenerarClaim(resultUsuario);
+
+
+            return Ok(
+                  new { token = _helper.GenerarToken(resClaims) }
+                );
 
 
         }
