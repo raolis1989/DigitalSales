@@ -18,7 +18,7 @@ namespace DigitalSales.Data.Interfaces
         Task<bool> Activate(int id);
         Task<Tuple<byte[], byte[]>> CrearPasswordHash(string password);
         Task<bool> CheckEmail(string email);
-
-
+        Task<User> ObtainUserByEmail(string email);
+        Task<bool> Verify(string password, byte[] passwordHashAlmacenado, byte[] passwordSalt);
     }
 }

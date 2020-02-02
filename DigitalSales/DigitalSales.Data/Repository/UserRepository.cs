@@ -3,6 +3,7 @@ using DigitalSales.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Unicode;
 using System.Threading.Tasks;
@@ -113,6 +114,13 @@ namespace DigitalSales.Data.Repository
                             .SingleOrDefaultAsync(c => c.IdUser == id);
         }
 
+        public async Task<User> ObtainUserByEmail(string email)
+        {
+            return await _context.Users
+                            .Include(c => c.Role)
+                            .SingleOrDefaultAsync(c => c.Email == email);
+        }
+
         public async Task<List<User>> ObtainUsersAsync()
         {
             return await _context.Users.Include(c => c.Role)
@@ -151,6 +159,16 @@ namespace DigitalSales.Data.Repository
 
             
             
+        }
+
+        public async Task<bool> Verify(string password, byte[] passwordHashAlmacenado, byte[] passwordSalt)
+        {
+            using (var hmac = new HMACSHA512(passwordSalt))
+            {
+                var passwordHashNuevo = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                return  new ReadOnlySpan<byte>(passwordHashAlmacenado).SequenceEqual(new ReadOnlySpan<byte>(passwordHashNuevo));
+            }
+
         }
     }
 }

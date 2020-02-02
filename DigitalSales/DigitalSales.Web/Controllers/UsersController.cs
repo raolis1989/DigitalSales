@@ -178,5 +178,40 @@ namespace DigitalSales.Web.Controllers
             }
 
         }
+
+
+
+
+        [HttpPost("[action]")]
+        [EnableCors()]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            var email = model.Email.ToLower();
+
+            var usuario = await _userRepository.CheckEmail(email);
+           
+
+            if(!usuario)
+            {
+                return NotFound();
+            }
+
+            var resultUsuario = await _userRepository.ObtainUserByEmail(email);
+
+
+
+            if(! await _userRepository.Verify(model.Password, resultUsuario.Password_Hash, resultUsuario.Password_Salt))
+            {
+                return NotFound();
+            }
+
+
+
+
+        }
+
+
+        
+
     }
 }
