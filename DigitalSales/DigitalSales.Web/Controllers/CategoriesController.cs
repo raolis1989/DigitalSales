@@ -12,9 +12,11 @@ using AutoMapper;
 using DigitalSales.Data.Repository;
 using DigitalSales.Data.Interfaces;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DigitalSales.Web.Controllers
 {
+    [Authorize(Roles= "Admin,  Warehouse")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase

@@ -6,6 +6,7 @@ using AutoMapper;
 using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Warehouse;
 using DigitalSales.Web.Models.Warehouse.Article;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse")]
         public async Task<ActionResult<IEnumerable<ArticleViewModel>>> List()
         {
 
@@ -49,6 +51,7 @@ namespace DigitalSales.Web.Controllers
         [HttpGet("[action]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Admin,  Warehouse")]
         public async Task<ActionResult<ArticleViewModel>> ObtainArticle(int id)
         {
             var article = await _articleRepository.ObtainArticleAsync(id);
@@ -68,6 +71,7 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse")]
         public async Task<ActionResult<UpdateViewModel>> UpdateArticle(int id, [FromBody] UpdateViewModel articleobj)
         {
             if (articleobj == null)
@@ -88,6 +92,7 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse")]
         public async Task<ActionResult<ArticleViewModel>> AddArticle(AddViewModel model)
         {
 
@@ -114,6 +119,7 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse")]
         public async Task<ActionResult> DeactivateArticle(int id)
         {
             try
@@ -137,6 +143,7 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse")]
         public async Task<ActionResult> ActivateArticle(int id)
         {
             try

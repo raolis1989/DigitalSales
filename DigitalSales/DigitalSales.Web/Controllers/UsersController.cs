@@ -7,6 +7,7 @@ using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Users;
 using DigitalSales.Web.Models.Users.User;
 using DigitalSales.Web.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,7 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<UserViewModel>>> List()
         {
 
@@ -72,6 +74,7 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UpdateViewModel>> UpdateUser(int id, [FromBody] UpdateViewModel userobj)
         {
             if (userobj == null)
@@ -100,6 +103,7 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UserViewModel>> AddUser(AddViewModel model)
         {
 
@@ -137,6 +141,7 @@ namespace DigitalSales.Web.Controllers
         }
 
         [HttpPut("[action]/{id}")]
+        [Authorize(Roles = "Admin")]
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -163,6 +168,7 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> ActivateUser(int id)
         {
             try
@@ -187,6 +193,7 @@ namespace DigitalSales.Web.Controllers
 
         [HttpPost("[action]")]
         [EnableCors()]
+
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             var email = model.Email.ToLower();

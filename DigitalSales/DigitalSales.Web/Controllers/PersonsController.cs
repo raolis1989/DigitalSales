@@ -6,6 +6,7 @@ using AutoMapper;
 using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Sales;
 using DigitalSales.Web.Models.Sales.Person;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Seller")]
         public async Task<ActionResult<IEnumerable<PersonViewModel>>> ListClients()
         {
 
@@ -49,6 +51,7 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse")]
         public async Task<ActionResult<IEnumerable<PersonViewModel>>> ListProviders()
         {
 
@@ -87,6 +90,7 @@ namespace DigitalSales.Web.Controllers
         [EnableCors()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse, Seller")]
         public async Task<ActionResult<PersonViewModel>> AddPerson(AddViewModel model)
         {
 
@@ -128,6 +132,7 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse, Seller")]
         public async Task<ActionResult<UpdateViewModel>> UpdateClient(int id, [FromBody] UpdateViewModel userobj)
         {
 

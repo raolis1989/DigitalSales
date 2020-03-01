@@ -7,6 +7,7 @@ using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Users;
 using DigitalSales.Web.Models.Users;
 using DigitalSales.Web.Models.Users.Role;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DigitalSales.Web.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class RolesController : ControllerBase
     {
