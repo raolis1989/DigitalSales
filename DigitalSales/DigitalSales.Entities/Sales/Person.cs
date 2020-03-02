@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DigitalSales.Entities.Warehouse;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -19,5 +20,6 @@ namespace DigitalSales.Entities.Sales
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public ICollection<Entry> Entries { get; set; }
     }
 }
