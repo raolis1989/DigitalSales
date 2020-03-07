@@ -1,4 +1,4 @@
-﻿using DigitalSales.Data.Interfaces;
+﻿ using DigitalSales.Data.Interfaces;
 using DigitalSales.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
 using System;

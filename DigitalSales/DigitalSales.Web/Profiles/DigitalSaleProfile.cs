@@ -39,6 +39,9 @@ namespace DigitalSales.Web.Profiles
             this.CreateMap<Person, Models.Sales.Person.PersonViewModel>().ReverseMap();
             this.CreateMap<Person, Models.Sales.Person.AddViewModel>().ReverseMap();
             this.CreateMap<Person, Models.Sales.Person.UpdateViewModel>().ReverseMap();
+            this.CreateMap<Person, Models.Sales.Person.SelectViewModel>().ReverseMap();
+
+            this.CreateMap<Entry, Models.Warehouse.Entry.EntryViewModel>().ReverseMap();
         }        
     }
 }

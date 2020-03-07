@@ -112,7 +112,7 @@ namespace DigitalSales.Data.Repository
         {
             return await _context.Users
                             .Include(c => c.Role)
-                            .SingleOrDefaultAsync(c => c.IdUser == id);
+                            .SingleOrDefaultAsync(c => c.idUser == id);
         }
 
         public async Task<User> ObtainUserByEmail(string email)
@@ -130,7 +130,7 @@ namespace DigitalSales.Data.Repository
 
         public async Task<bool> Update(User user)
         {
-            var resultUser = await ObtainUserAsync(user.IdUser);
+            var resultUser = await ObtainUserAsync(user.idUser);
             resultUser.idRole = user.idRole;
             resultUser.Name = user.Name;
             resultUser.Type_Document = user.Type_Document;

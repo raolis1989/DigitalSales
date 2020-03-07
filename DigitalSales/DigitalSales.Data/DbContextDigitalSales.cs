@@ -1,4 +1,5 @@
-﻿using DigitalSales.Data.Mapping.Sales;
+﻿using DigitalSales.Data.Mapping;
+using DigitalSales.Data.Mapping.Sales;
 using DigitalSales.Data.Mapping.Users;
 using DigitalSales.Data.Mapping.Warehouse;
 using DigitalSales.Entities.Sales;
@@ -15,6 +16,8 @@ namespace DigitalSales.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Entry> Entries { get; set; }
+        public DbSet<DetailEntry> DetailEntries { get; set; }
 
         public DbContextDigitalSales(DbContextOptions<DbContextDigitalSales> options) : base(options)
         {
@@ -30,6 +33,8 @@ namespace DigitalSales.Data
             modelBuilder.ApplyConfiguration(new RoleMap());
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new PersonMap());
+            modelBuilder.ApplyConfiguration(new EntryMap());
+            modelBuilder.ApplyConfiguration(new DetailEntryMap());
         }
     }
 }

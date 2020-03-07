@@ -11,17 +11,16 @@ namespace DigitalSales.Entities.Warehouse
     {
         public int IdEntry { get; set; }
         [Required]
-        public int IdProvider { get; set; }
+        public int idprovider { get; set; }
         [Required]
-        public int IdUser { get; set; }
+        public int iduser { get; set; }
 
         [Required]
-        public string TypeVoucher { get; set; }
-        public string SerialVoucher { get; set; }
+        public string Type_Voucher { get; set; }
         [Required]
-        public string NumVoucher { get; set; }
+        public string Num_Voucher { get; set; }
         [Required]
-        public DateTime DateHour { get; set; }
+        public DateTime Date_Time { get; set; }
         [Required]
         public decimal Tax { get; set; }
         [Required]
@@ -29,8 +28,12 @@ namespace DigitalSales.Entities.Warehouse
         [Required]
         public string Status { get; set; }
         public ICollection<DetailEntry> Details { get; set; }
-        public User User { get; set; }
         public Person Person { get; set; }
+
+        public User User { get; set; }
+
+        public string ProviderName => Person.Name;
+    //    public string UserName => User.Name;
 
     }
 }

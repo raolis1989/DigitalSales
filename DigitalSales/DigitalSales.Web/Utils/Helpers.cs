@@ -24,10 +24,10 @@ namespace DigitalSales.Web.Utils
         {
             var claim = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.IdUser.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.idUser.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role.Name),
-                new Claim("idUser", user.IdUser.ToString()),
+                new Claim("idUser", user.idUser.ToString()),
                 new Claim("rol", user.Role.Name),
                 new Claim("name", user.Name)
             };

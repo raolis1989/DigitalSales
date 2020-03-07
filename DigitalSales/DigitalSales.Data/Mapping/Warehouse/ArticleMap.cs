@@ -15,6 +15,8 @@ namespace DigitalSales.Data.Mapping.Warehouse
                 .WithMany(p => p.Articles)
                 .HasForeignKey(d => d.idCategory);
 
+     
+
         }
     }
 }

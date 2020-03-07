@@ -8,7 +8,7 @@ namespace DigitalSales.Entities.Users
 {
     public class User
     {
-        public int IdUser { get; set; }
+        public int idUser { get; set; }
         [Required]
         public int idRole { get; set; }
         
@@ -34,6 +34,7 @@ namespace DigitalSales.Entities.Users
         public string RoleName => Role.Name;
 
         public ICollection<Entry> Entries { get; set; }
+   
 
     }
 }

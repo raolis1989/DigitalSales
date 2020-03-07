@@ -7,12 +7,12 @@ using System.Text;
 
 namespace DigitalSales.Data.Mapping.Users
 {
-    public class UserMap : IEntityTypeConfiguration<User>
+    public class UserMap : IEntityTypeConfiguration<Entities.Users.User>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Entities.Users.User> builder)
         {
             builder.ToTable("users")
-                 .HasKey(u => u.IdUser);
+                 .HasKey(u => u.idUser);
 
             builder.HasOne(d => d.Role)
                   .WithMany(p => p.Users)
