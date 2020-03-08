@@ -11,6 +11,7 @@ namespace DigitalSales.Data.Interfaces
         Task<List<Article>> ObtainArticlesAsync();
 
         Task<Article> ObtainArticleAsync(int id);
+        Task<Article> ObtainArticleActiveAsync(string code);
         Task<bool> Update(Article article);
         Task<Article> AddArticle(Article article);
         Task<bool> Delete(int id);

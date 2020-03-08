@@ -65,6 +65,25 @@ namespace DigitalSales.Web.Controllers
             return _mapper.Map<ArticleViewModel>(article);
         }
 
+        // GET: api/Categories/obtainArticleforcode
+        [HttpGet("[action]/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Admin,  Warehouse")]
+        public async Task<ActionResult<ArticleViewModel>> ObtainArticleForCode(string id)
+        {
+            var article = await _articleRepository.ObtainArticleActiveAsync(id);
+
+
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<ArticleViewModel>(article);
+        }
+
+
 
         [HttpPut("[action]")]
         [EnableCors()]

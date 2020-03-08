@@ -3,6 +3,7 @@ using DigitalSales.Entities.Warehouse;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -81,7 +82,24 @@ namespace DigitalSales.Data.Repository
             throw new NotImplementedException();
         }
 
+        public async Task<Article> ObtainArticleActiveAsync(string id)
+        {
+            try
+            {
+                return await _context.Articles
+              .Include(c => c.Category)
+              .Where(a => a.Condition == true)
+              .FirstOrDefaultAsync(c => c.Code == id);
+            }
+            catch (Exception ex)
+            {
 
+                throw;
+            }
+
+
+          
+        }
 
         public async Task<Article> ObtainArticleAsync(int id)
         {
