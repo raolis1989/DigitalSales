@@ -47,6 +47,26 @@ namespace DigitalSales.Web.Controllers
             }
         }
 
+        [HttpGet("[action]/{text}")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse")]
+        public async Task<ActionResult<IEnumerable<ArticleViewModel>>> ListEntry(string text)
+        {
+
+            try
+            {
+                var articles = await _articleRepository.ObtainArticlesForNameAsync(text);
+
+                return _mapper.Map<List<ArticleViewModel>>(articles);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
         // GET: api/Categories/5
         [HttpGet("[action]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

@@ -9,6 +9,7 @@ namespace DigitalSales.Data.Interfaces
     public interface IArticleRepository
     {
         Task<List<Article>> ObtainArticlesAsync();
+        Task<List<Article>> ObtainArticlesForNameAsync(string Name);
 
         Task<Article> ObtainArticleAsync(int id);
         Task<Article> ObtainArticleActiveAsync(string code);
