@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DigitalSales.Data.Interfaces;
+using DigitalSales.Entities.Warehouse;
 using DigitalSales.Web.Models.Warehouse.Entry;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -46,5 +47,29 @@ namespace DigitalSales.Web.Controllers
             }
         }
 
+
+        [HttpPost("[action]")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse")]
+        public async Task<ActionResult> AddEntry(AddEntryViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var entry = _mapper.Map<Entry>(model);
+
+            var newEntry = await _entryRepository.AddEntry(entry);
+            if (newEntry == null)
+            {
+                return BadRequest();
+            }
+
+            var newEntryResult = _mapper.Map<EntryViewModel>(newEntry);
+            return CreatedAtAction(nameof(AddEntry), new { id = newEntryResult.IdEntry }, newEntryResult);
+        }
     }
 }

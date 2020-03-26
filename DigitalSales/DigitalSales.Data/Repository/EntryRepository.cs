@@ -19,21 +19,22 @@ namespace DigitalSales.Data.Repository
         }
         public async Task<Entry> AddEntry(Entry entry)
         {
-            entry.Status = "ACCEPTED";
-            entry.Date_Time = DateTime.Now;
-            _context.Add(entry);
+            entry.status = "ACCEPTED";
+            entry.date_time = DateTime.Now;
+            _context.Entries.Add(entry);
             
             
             try
             {
-                await _context.SaveChangesAsync(); 
-                
-                foreach(var detail in entry.Details)
-                {
-                    _context.Add(detail);
-                }
-
                 await _context.SaveChangesAsync();
+
+                //var id = entry.identry;
+                //foreach (var detail in entry.Details)
+                //{
+                //    _context.DetailEntries.Add(detail);
+                //}
+
+                //await _context.SaveChangesAsync();
 
             }
             catch (Exception ex)
@@ -53,7 +54,7 @@ namespace DigitalSales.Data.Repository
                 var sd = await _context.Entries
               .Include(p => p.Person)
               .Include(p=>p.User)
-              .OrderByDescending(p => p.IdEntry)
+              .OrderByDescending(p => p.identry)
               .ToListAsync();
                 return sd; 
             }
@@ -69,8 +70,8 @@ namespace DigitalSales.Data.Repository
         public async Task<Entry> ObtainEntryAsync(int id)
         {
             return await _context.Entries
-                .Include(c => c.Details)
-                .SingleOrDefaultAsync(c => c.IdEntry == id);
+                //.Include(c => c.Details)
+                .SingleOrDefaultAsync(c => c.identry == id);
             
         }
 

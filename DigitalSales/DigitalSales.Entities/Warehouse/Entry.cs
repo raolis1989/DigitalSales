@@ -9,25 +9,26 @@ namespace DigitalSales.Entities.Warehouse
 {
     public class Entry
     {
-        public int IdEntry { get; set; }
+        [Key]
+        public int identry { get; set; }
         [Required]
         public int idprovider { get; set; }
         [Required]
         public int iduser { get; set; }
 
         [Required]
-        public string Type_Voucher { get; set; }
+        public string type_voucher { get; set; }
         [Required]
-        public string Num_Voucher { get; set; }
+        public string num_voucher { get; set; }
         [Required]
-        public DateTime Date_Time { get; set; }
+        public DateTime date_time { get; set; }
         [Required]
-        public decimal Tax { get; set; }
+        public decimal tax { get; set; }
         [Required]
-        public decimal Total { get; set; }
+        public decimal total { get; set; }
         [Required]
-        public string Status { get; set; }
-        public ICollection<DetailEntry> Details { get; set; }
+        public string status { get; set; }
+        public ICollection<DetailEntry> detail_entry { get; set; }
         public Person Person { get; set; }
 
         public User User { get; set; }

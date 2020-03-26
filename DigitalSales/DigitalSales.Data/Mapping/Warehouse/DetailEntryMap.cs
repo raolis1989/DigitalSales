@@ -12,7 +12,8 @@ namespace DigitalSales.Data.Mapping.Warehouse
         public void Configure(EntityTypeBuilder<DetailEntry> builder)
         {
             builder.ToTable("detail_entry")
-                .HasKey(d => d.IdDtailEntry);
+                .HasKey(d => d.iddetail_entry);
+
         }
     }
 }

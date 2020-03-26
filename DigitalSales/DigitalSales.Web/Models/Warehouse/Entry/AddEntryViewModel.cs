@@ -23,7 +23,7 @@ namespace DigitalSales.Web.Models.Warehouse.Entry
         public decimal Total { get; set; }
 
         [Required]
-        public List <DetailViewModel> Details { get; set; }
+        public List <DetailViewModel> detail_entry { get; set; }
 
     }
 }

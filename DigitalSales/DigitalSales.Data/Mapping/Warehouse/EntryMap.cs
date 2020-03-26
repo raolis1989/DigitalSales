@@ -12,7 +12,7 @@ namespace DigitalSales.Data.Mapping.Warehouse
         public void Configure(EntityTypeBuilder<Entry> builder)
         {
             builder.ToTable("entry")
-                .HasKey(i => i.IdEntry);
+                .HasKey(i => i.identry);
 
             builder.HasOne(i => i.Person)
                 .WithMany(p => p.Entries)
@@ -21,12 +21,11 @@ namespace DigitalSales.Data.Mapping.Warehouse
             builder.HasOne(i => i.User)
                 .WithMany(p => p.Entries)
                 .HasForeignKey(i => i.iduser);
+
+            builder.HasMany(x => x.detail_entry)
+                .WithOne(x => x.Entry)
+                .HasForeignKey(x=>x.identry);
                 
-
-            //builder.HasOne(i => i.Person)
-            //   .WithMany(p => p.Entries)
-            //   .HasForeignKey(i => i.iduser);
-
 
         }
     }
