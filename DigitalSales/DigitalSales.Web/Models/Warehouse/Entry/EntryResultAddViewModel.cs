@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace DigitalSales.Web.Models.Warehouse.Entry
 {
-    public class EntryViewModel
+    public class EntryResultAddViewModel
     {
+
         public int IdEntry { get; set; }
         public int IdProvider { get; set; }
         public int IdUser { get; set; }
@@ -16,9 +17,6 @@ namespace DigitalSales.Web.Models.Warehouse.Entry
         public decimal Tax { get; set; }
         public decimal Total { get; set; }
         public string Status { get; set; }
-        public string ProviderName { get; set; }
-        public  string UserName { get; set; }
         public List<DetailViewModel> detail_entry { get; set; }
-
     }
 }

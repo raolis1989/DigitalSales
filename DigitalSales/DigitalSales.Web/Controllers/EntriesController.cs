@@ -53,7 +53,7 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "Admin,  Warehouse")]
-        public async Task<ActionResult> AddEntry(AddEntryViewModel model)
+        public async Task<ActionResult<EntryResultAddViewModel>> AddEntry(AddEntryViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -67,9 +67,18 @@ namespace DigitalSales.Web.Controllers
             {
                 return BadRequest();
             }
+            try
+            {
+                var newEntryResult = _mapper.Map<EntryResultAddViewModel>(newEntry);
+                return CreatedAtAction(nameof(AddEntry), new { id = newEntryResult.IdEntry }, newEntryResult);
+            }
+            catch (Exception ex)
+            {
 
-            var newEntryResult = _mapper.Map<EntryViewModel>(newEntry);
-            return CreatedAtAction(nameof(AddEntry), new { id = newEntryResult.IdEntry }, newEntryResult);
+                return null;
+            }
+            
+           
         }
     }
 }

@@ -44,6 +44,7 @@ namespace DigitalSales.Web.Profiles
             this.CreateMap<Entry, Models.Warehouse.Entry.EntryViewModel>().ReverseMap();
             this.CreateMap<Entry, Models.Warehouse.Entry.AddEntryViewModel>().ReverseMap();
             this.CreateMap<DetailEntry, Models.Warehouse.Entry.DetailViewModel>().ReverseMap();
+            this.CreateMap<Entry, Models.Warehouse.Entry.EntryResultAddViewModel>().ReverseMap();
         }        
     }
 }
