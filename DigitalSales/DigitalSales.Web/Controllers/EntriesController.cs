@@ -20,11 +20,13 @@ namespace DigitalSales.Web.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IEntryRepository _entryRepository;
+        private readonly IDetailEntryRepository _detailEntryRepository;
 
-        public EntriesController(IMapper mapper, IEntryRepository entryRepository)
+        public EntriesController(IMapper mapper, IEntryRepository entryRepository,  IDetailEntryRepository detailEntryRepository)
         {
             _mapper = mapper;
             _entryRepository = entryRepository;
+            _detailEntryRepository = detailEntryRepository;
         }
 
         [HttpGet("[action]")]
@@ -79,6 +81,24 @@ namespace DigitalSales.Web.Controllers
             }
             
            
+        }
+
+        [HttpGet("[action]/{id}")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[Authorize(Roles = "Admin,  Warehouse")]
+        public async Task<ActionResult<IEnumerable<DetailViewModel>>> ListDetailEntry(int id)
+        {
+            try
+            {
+                var detailsEntry = await _detailEntryRepository.ObtainDetailsEntrieAsync(id);
+                return _mapper.Map<List<DetailViewModel>>(detailsEntry);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
     }
 }

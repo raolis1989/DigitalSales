@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DigitalSales.Entities.Warehouse
 {
@@ -19,5 +21,6 @@ namespace DigitalSales.Entities.Warehouse
         public bool Condition { get; set; }
         public Category Category { get; set; }
         public string CategoryName => Category.Name;
+        public ICollection<DetailEntry> DetailEntry { get; set; }
     }
 }

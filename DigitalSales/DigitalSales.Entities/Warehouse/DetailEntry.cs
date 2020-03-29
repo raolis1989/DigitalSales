@@ -19,6 +19,6 @@ namespace DigitalSales.Entities.Warehouse
         [Required]
         public decimal Price { get; set; }
         public Entry Entry { get; set; }
-        //public Article Article { get; set; }
+        public Article Article { get; set; }
     }
 }

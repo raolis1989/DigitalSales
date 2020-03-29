@@ -11,8 +11,8 @@ namespace DigitalSales.Web.Models.Warehouse.Entry
         [Required]
         public int idArticle { get; set; }
         [Required]
-        public int Quanty { get; set; }
+        public int Quantity { get; set; }
         [Required]
-        public decimal Ammount { get; set; }
+        public decimal Price { get; set; }
     }
 }
