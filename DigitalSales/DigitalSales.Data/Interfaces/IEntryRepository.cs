@@ -12,6 +12,7 @@ namespace DigitalSales.Data.Interfaces
         Task<Entry> Update(Entry entry);
         Task<Entry> AddEntry(Entry entry);
         Task<List<Entry>> ObtainEntriesAsync();
+        Task<bool> Deactivate(int id);
 
 
     }

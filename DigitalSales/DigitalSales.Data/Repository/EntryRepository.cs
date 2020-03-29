@@ -28,14 +28,6 @@ namespace DigitalSales.Data.Repository
             {
                 await _context.SaveChangesAsync();
 
-                //var id = entry.identry;
-                //foreach (var detail in entry.Details)
-                //{
-                //    _context.DetailEntries.Add(detail);
-                //}
-
-                //await _context.SaveChangesAsync();
-
             }
             catch (Exception ex)
             {
@@ -44,6 +36,22 @@ namespace DigitalSales.Data.Repository
             }
 
             return entry;
+        }
+
+        public async Task<bool> Deactivate(int id)
+        {
+            var resultEntry = await ObtainEntryAsync(id);
+            resultEntry.status = "CANCELED";
+
+            try
+            {
+                return await _context.SaveChangesAsync() > 0 ? true : false;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }       
         }
 
         public async Task<List<Entry>> ObtainEntriesAsync()

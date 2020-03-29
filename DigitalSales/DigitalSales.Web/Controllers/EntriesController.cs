@@ -100,5 +100,28 @@ namespace DigitalSales.Web.Controllers
                 return BadRequest();
             }
         }
+
+
+        [HttpPut("[action]/{id}")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> AnulateEntry (int id)
+        {
+            try
+            {
+                var resultado = await  _entryRepository.Deactivate(id);
+                if (!resultado)
+                {
+                    return BadRequest();
+                }
+                return NoContent();
+            }
+            catch (Exception excepcion)
+            {
+
+                return BadRequest();
+            }
+        }
     }
 }
