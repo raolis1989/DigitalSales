@@ -12,10 +12,12 @@ namespace DigitalSales.Data.Repository
     public class EntryRepository : IEntryRepository
     {
         private readonly DbContextDigitalSales _context;
+        private readonly ArticleRepository _articleRepository;
 
-        public EntryRepository(DbContextDigitalSales context)
+        public EntryRepository(DbContextDigitalSales context, ArticleRepository articleRepository )
         {
             _context = context;
+            _articleRepository = articleRepository;
         }
         public async Task<Entry> AddEntry(Entry entry)
         {
@@ -43,8 +45,20 @@ namespace DigitalSales.Data.Repository
             var resultEntry = await ObtainEntryAsync(id);
             resultEntry.status = "CANCELED";
 
+
             try
             {
+                foreach (var article in resultEntry.detail_entry)
+                {
+                    var articleStockNow = await _articleRepository.ObtainArticleAsync(article.idarticle);
+
+                    articleStockNow.Stock = article.Article.Stock - article.Quantity;
+
+                    await _articleRepository.Update(articleStockNow);
+
+                }
+
+
                 return await _context.SaveChangesAsync() > 0 ? true : false;
             }
             catch (Exception ex)
@@ -73,6 +87,16 @@ namespace DigitalSales.Data.Repository
             }
 
        
+        }
+
+        public async Task<List<Entry>> ObtainEntriesFilter(string texto)
+        {
+            return await _context.Entries
+                             .Include(i => i.User)
+                             .Include(i => i.Person)
+                             .Where(i => i.num_voucher.Contains(texto))
+                             .OrderByDescending(i => i.identry)
+                             .ToListAsync();
         }
 
         public async Task<Entry> ObtainEntryAsync(int id)

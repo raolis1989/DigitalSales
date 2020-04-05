@@ -123,5 +123,26 @@ namespace DigitalSales.Web.Controllers
                 return BadRequest();
             }
         }
+
+
+        [HttpGet("[action]/{texto}")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Warehouse")]
+        public async Task<ActionResult<IEnumerable<EntryViewModel>>> ListEntriesFilter(string texto)
+        {
+
+            try
+            {
+                var entries = await _entryRepository.ObtainEntriesFilter(texto);
+
+                return _mapper.Map<List<EntryViewModel>>(entries);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
     }
 }

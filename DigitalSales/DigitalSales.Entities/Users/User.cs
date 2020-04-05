@@ -1,4 +1,5 @@
-﻿using DigitalSales.Entities.Warehouse;
+﻿using DigitalSales.Entities.Sales;
+using DigitalSales.Entities.Warehouse;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -34,7 +35,8 @@ namespace DigitalSales.Entities.Users
         public string RoleName => Role.Name;
 
         public ICollection<Entry> Entries { get; set; }
-   
+        public ICollection<Sale> Sales { get; set; }
+
 
     }
 }

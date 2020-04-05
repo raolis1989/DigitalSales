@@ -18,6 +18,8 @@ namespace DigitalSales.Data
         public DbSet<Person> Persons { get; set; }
         public DbSet<Entry> Entries { get; set; }
         public DbSet<DetailEntry> DetailEntries { get; set; }
+        public DbSet<Sale> Sales { get; set; }
+        public DbSet<DetailSale> DetailSales { get; set; }
 
         public DbContextDigitalSales(DbContextOptions<DbContextDigitalSales> options) : base(options)
         {
@@ -35,6 +37,10 @@ namespace DigitalSales.Data
             modelBuilder.ApplyConfiguration(new PersonMap());
             modelBuilder.ApplyConfiguration(new EntryMap());
             modelBuilder.ApplyConfiguration(new DetailEntryMap());
+            modelBuilder.ApplyConfiguration(new SaleMap());
+            modelBuilder.ApplyConfiguration(new DetailSaleMap());
+
+
         }
     }
 }

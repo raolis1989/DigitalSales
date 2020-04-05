@@ -21,5 +21,6 @@ namespace DigitalSales.Entities.Sales
         public string Phone { get; set; }
         public string Email { get; set; }
         public ICollection<Entry> Entries { get; set; }
+        public ICollection<Sale> Sales { get; set; }
     }
 }

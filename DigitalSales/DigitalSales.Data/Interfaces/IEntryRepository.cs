@@ -14,6 +14,6 @@ namespace DigitalSales.Data.Interfaces
         Task<List<Entry>> ObtainEntriesAsync();
         Task<bool> Deactivate(int id);
 
-
+        Task<List<Entry>> ObtainEntriesFilter(string texto);
     }
 }
