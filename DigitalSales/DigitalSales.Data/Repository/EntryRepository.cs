@@ -12,12 +12,12 @@ namespace DigitalSales.Data.Repository
     public class EntryRepository : IEntryRepository
     {
         private readonly DbContextDigitalSales _context;
-        private readonly ArticleRepository _articleRepository;
+        private readonly IArticleRepository _articleRepository;
 
-        public EntryRepository(DbContextDigitalSales context, ArticleRepository articleRepository )
+        public EntryRepository(DbContextDigitalSales context, IArticleRepository articleRepository )
         {
             _context = context;
-            _articleRepository = articleRepository;
+            this._articleRepository = articleRepository;
         }
         public async Task<Entry> AddEntry(Entry entry)
         {

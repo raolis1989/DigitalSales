@@ -16,7 +16,7 @@ namespace DigitalSales.Web.Models.Sales.Sales
         public decimal Tax { get; set; }
         public decimal Total { get; set; }
         public string Status { get; set; }
-        public string ProviderName { get; set; }
+        public string ClientName { get; set; }
         public string UserName { get; set; }
         public List<DetailSaleViewModel> detail_sale { get; set; }
     }

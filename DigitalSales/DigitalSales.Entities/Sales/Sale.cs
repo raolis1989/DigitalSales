@@ -32,7 +32,7 @@ namespace DigitalSales.Entities.Sales
 
         public User User { get; set; }
 
-        public string ProviderName => Person.Name;
+        public string ClientName => Person.Name;
         public string UserName => User.Name;
 
     }

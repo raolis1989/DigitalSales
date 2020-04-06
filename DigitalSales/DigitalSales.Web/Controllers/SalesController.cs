@@ -71,7 +71,7 @@ namespace DigitalSales.Web.Controllers
             try
             {
                 var newSaleResult = _mapper.Map<SaleResultAddViewModel>(newSale);
-                return CreatedAtAction(nameof(AddEntry), new { id = newSaleResult.IdSale}, newSaleResult);
+                return CreatedAtAction(nameof(AddSale), new { id = newSaleResult.IdSale}, newSaleResult);
             }
             catch (Exception ex)
             {

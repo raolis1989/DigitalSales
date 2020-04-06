@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DigitalSales.Entities.Sales;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,5 +23,6 @@ namespace DigitalSales.Entities.Warehouse
         public Category Category { get; set; }
         public string CategoryName => Category.Name;
         public ICollection<DetailEntry> DetailEntry { get; set; }
+       // public ICollection<DetailSale> DetailSale { get; set; }
     }
 }

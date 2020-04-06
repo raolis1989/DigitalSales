@@ -86,6 +86,25 @@ namespace DigitalSales.Web.Controllers
             }
         }
 
+        [HttpGet("[action]")]
+        [Authorize(Roles = "Admin,  Warehouse")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<SelectViewModel>>> SelectClients()
+        {
+            try
+            {
+                var category = await _personRepository.ObtainPersonsAsync("Client");
+
+                return _mapper.Map<List<SelectViewModel>>(category);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
 
         [HttpGet("[action]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

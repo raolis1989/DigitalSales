@@ -19,14 +19,14 @@ namespace DigitalSales.Web.Profiles
         public DigitalSaleProfile()
         {
             this.CreateMap<Category, CategoryViewModel>().ReverseMap();
-            this.CreateMap<Category, Models.Warehouse.Category.AddViewModel > ().ReverseMap();
+            this.CreateMap<Category, Models.Warehouse.Category.AddViewModel>().ReverseMap();
             this.CreateMap<Category, Models.Warehouse.Category.UpdateViewModel>().ReverseMap();
             this.CreateMap<Category, Models.Warehouse.Category.SelectViewModel>().ReverseMap();
-            
+
             this.CreateMap<Article, ArticleViewModel>().ReverseMap();
             this.CreateMap<Article, Models.Warehouse.Article.AddViewModel>().ReverseMap();
             this.CreateMap<Article, Models.Warehouse.Article.UpdateViewModel>().ReverseMap();
-            
+
             this.CreateMap<Role, RoleViewModel>().ReverseMap();
             this.CreateMap<Role, Models.Users.Role.AddViewModel>().ReverseMap();
             this.CreateMap<Role, Models.Users.Role.UpdateViewModel>().ReverseMap();
@@ -45,6 +45,11 @@ namespace DigitalSales.Web.Profiles
             this.CreateMap<Entry, Models.Warehouse.Entry.AddEntryViewModel>().ReverseMap();
             this.CreateMap<DetailEntry, Models.Warehouse.Entry.DetailViewModel>().ReverseMap();
             this.CreateMap<Entry, Models.Warehouse.Entry.EntryResultAddViewModel>().ReverseMap();
-        }        
+
+            this.CreateMap<Sale, Models.Sales.Sales.SalesViewModel>().ReverseMap();
+            this.CreateMap<Sale, Models.Sales.Sales.AddSaleViewModel>().ReverseMap();
+            this.CreateMap<DetailSale, Models.Sales.Sales.DetailSaleViewModel>().ReverseMap();
+            this.CreateMap<Sale, Models.Sales.Sales.SaleResultAddViewModel>().ReverseMap();
+        }
     }
 }

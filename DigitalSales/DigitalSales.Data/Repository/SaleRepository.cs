@@ -12,9 +12,9 @@ namespace DigitalSales.Data.Repository
     public class SaleRepository : ISaleRepository
     {
         private readonly DbContextDigitalSales _context;
-        private readonly ArticleRepository _articleRepository;
+        private readonly IArticleRepository _articleRepository;
 
-        public SaleRepository(DbContextDigitalSales context, ArticleRepository articleRepository)
+        public SaleRepository(DbContextDigitalSales context, IArticleRepository articleRepository)
         {
             _context = context;
             _articleRepository = articleRepository;
