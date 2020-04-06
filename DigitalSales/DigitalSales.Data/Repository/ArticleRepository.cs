@@ -109,6 +109,23 @@ namespace DigitalSales.Data.Repository
                 
         }
 
+        public async Task<Article> ObtainArticleForSale(string Codigo)
+        {
+
+            try
+            {
+                return await _context.Articles.Include(c => c.Category)
+                            .Where(a => a.Condition == true && a.Stock > 0)
+                            .FirstOrDefaultAsync(a => a.Code == Codigo);
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+                            
+        }
+
         public async Task<List<Article>> ObtainArticlesAsync()
         {
             return await _context.Articles.Include(a => a.Category)
@@ -124,6 +141,15 @@ namespace DigitalSales.Data.Repository
                 .Where(a=>a.Name.Contains(Name))
                 .Where(a=>a.Condition==true)
                .ToListAsync();
+        }
+
+        public async Task<List<Article>> ObtainArticlesForSale(string Name)
+        {
+            return await _context.Articles.Include(a => a.Category)
+               .Where(a => a.Name.Contains(Name))
+               .Where(a => a.Condition == true)
+               .Where(a =>a.Stock>0)
+              .ToListAsync();
         }
 
         public async Task<bool> Update(Article article)

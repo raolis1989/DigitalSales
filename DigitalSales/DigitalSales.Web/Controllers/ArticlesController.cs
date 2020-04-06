@@ -67,6 +67,28 @@ namespace DigitalSales.Web.Controllers
             }
         }
 
+
+
+        [HttpGet("[action]/{text}")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin,  Seller")]
+        public async Task<ActionResult<IEnumerable<ArticleViewModel>>> ListSale(string text)
+        {
+
+            try
+            {
+                var articles = await _articleRepository.ObtainArticlesForSale(text);
+
+                return _mapper.Map<List<ArticleViewModel>>(articles);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
         // GET: api/Categories/5
         [HttpGet("[action]/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -102,6 +124,26 @@ namespace DigitalSales.Web.Controllers
 
             return _mapper.Map<ArticleViewModel>(article);
         }
+
+
+
+        [HttpGet("[action]/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Admin,  Warehouse")]
+        public async Task<ActionResult<ArticleViewModel>> ObtainArticleForCodeForSale(string id)
+        {
+            var article = await _articleRepository.ObtainArticleForSale(id);
+
+
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<ArticleViewModel>(article);
+        }
+
 
 
 

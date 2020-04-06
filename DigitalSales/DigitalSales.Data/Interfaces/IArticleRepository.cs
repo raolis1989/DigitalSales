@@ -18,6 +18,8 @@ namespace DigitalSales.Data.Interfaces
         Task<bool> Delete(int id);
         Task<bool> Deactivate(int id);
         Task<bool> Activate(int id);
+        Task<List<Article>> ObtainArticlesForSale(string Name);
+        Task<Article> ObtainArticleForSale(string Codigo);
 
     }
 }
