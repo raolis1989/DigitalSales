@@ -38,6 +38,8 @@ namespace DigitalSales.Web
             services.AddScoped<IPersonRepository, PersonRepository>();
             services.AddScoped<IEntryRepository, EntryRepository>();
             services.AddScoped<IDetailEntryRepository, DetailEntryRepository>();
+            services.AddScoped<ISaleRepository, SaleRepository>();
+            services.AddScoped<IDetailSaleRepository, DetailSaleRepository>();
             services.AddScoped<Helpers>();
             services.AddCors(options => {
                 options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
