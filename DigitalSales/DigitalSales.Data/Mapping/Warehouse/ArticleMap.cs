@@ -19,6 +19,10 @@ namespace DigitalSales.Data.Mapping.Warehouse
                 .WithOne(x => x.Article)
                 .HasForeignKey(x => x.idarticle);
 
+            builder.HasMany(x => x.DetailSale)
+                .WithOne(x => x.Article)
+                .HasForeignKey(x => x.idarticle);
+
         }
     }
 }

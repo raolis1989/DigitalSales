@@ -11,8 +11,6 @@ namespace DigitalSales.Web.Models.Sales.Sales
         [Required]
         public int idArticle { get; set; }
 
-        public string Article { get; set; }
-
         [Required]
         public int Quantity { get; set; }
         [Required]

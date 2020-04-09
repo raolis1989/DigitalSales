@@ -145,11 +145,13 @@ namespace DigitalSales.Data.Repository
 
         public async Task<List<Article>> ObtainArticlesForSale(string Name)
         {
-            return await _context.Articles.Include(a => a.Category)
+            var asd = await _context.Articles.Include(a => a.Category)
                .Where(a => a.Name.Contains(Name))
                .Where(a => a.Condition == true)
                .Where(a =>a.Stock>0)
               .ToListAsync();
+
+            return asd;
         }
 
         public async Task<bool> Update(Article article)

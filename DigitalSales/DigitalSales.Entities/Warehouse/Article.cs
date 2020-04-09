@@ -23,6 +23,6 @@ namespace DigitalSales.Entities.Warehouse
         public Category Category { get; set; }
         public string CategoryName => Category.Name;
         public ICollection<DetailEntry> DetailEntry { get; set; }
-       // public ICollection<DetailSale> DetailSale { get; set; }
+        public ICollection<DetailSale> DetailSale { get; set; }
     }
 }

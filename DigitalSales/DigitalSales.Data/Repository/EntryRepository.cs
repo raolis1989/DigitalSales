@@ -57,7 +57,7 @@ namespace DigitalSales.Data.Repository
                     await _articleRepository.Update(articleStockNow);
 
                 }
-
+                _context.Entries.Update(resultEntry);
 
                 return await _context.SaveChangesAsync() > 0 ? true : false;
             }

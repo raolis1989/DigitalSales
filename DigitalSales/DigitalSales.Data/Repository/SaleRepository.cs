@@ -54,7 +54,10 @@ namespace DigitalSales.Data.Repository
 
                     await _articleRepository.Update(articlesStockNow);
                 }
+                _context.Sales.Update(resultSale);
+
                 return await _context.SaveChangesAsync() > 0 ? true : false;
+                
             }
             catch (Exception ex)
             {
@@ -65,7 +68,9 @@ namespace DigitalSales.Data.Repository
 
         public  async Task<Sale> ObtainSaleAsync(int id)
         {
-            return await _context.Sales.SingleOrDefaultAsync(c => c.idsale == id);
+            return await _context.Sales
+                .Include(c => c.detail_sale)
+                .SingleOrDefaultAsync(c => c.idsale == id);
         }
 
         public async Task<List<Sale>> ObtainSalesFilter(string texto)

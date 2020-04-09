@@ -11,7 +11,7 @@ namespace DigitalSales.Data.Mapping.Sales
     {
         public void Configure(EntityTypeBuilder<DetailSale> builder)
         {
-            builder.ToTable("detail_sale")
+            builder.ToTable("datail_sale")
                 .HasKey(d => d.iddetail_sale);
         }
     }
