@@ -15,5 +15,6 @@ namespace DigitalSales.Data.Interfaces
         Task<bool> Deactivate(int id);
 
         Task<List<Sale>> ObtainSalesFilter(string texto);
+        Task<List<Sale>> FilterSalesDates(DateTime dateInit, DateTime dateEnd);
     }
 }

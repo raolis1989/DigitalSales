@@ -105,5 +105,16 @@ namespace DigitalSales.Data.Repository
         {
             throw new NotImplementedException();
         }
+
+        public async  Task<List<Sale>> FilterSalesDates(DateTime dateInit, DateTime dateEnd)
+        {
+            return await _context.Sales
+                            .Include(s => s.User)
+                            .Include(s => s.Person)
+                            .Where(i => i.date_time >= dateInit && i.date_time<=dateEnd)
+                            .OrderByDescending(v => v.idsale)
+                            .Take(100)
+                            .ToListAsync();
+        }
     }
 }
