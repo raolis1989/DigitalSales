@@ -18,6 +18,10 @@ namespace DigitalSales.Web.Models.Sales.Sales
         public string Status { get; set; }
         public string ClientName { get; set; }
         public string UserName { get; set; }
+        public string numDocument { get; set; }
+        public string phone { get; set; }
+        public string address { get; set; }
+        public string email { get; set; }
         public List<DetailSaleViewModel> detail_sale { get; set; }
     }
 }

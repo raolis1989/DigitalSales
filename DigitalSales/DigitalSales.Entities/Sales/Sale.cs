@@ -34,6 +34,10 @@ namespace DigitalSales.Entities.Sales
 
         public string ClientName => Person.Name;
         public string UserName => User.Name;
+        public string numDocument => User.Num_Document;
+        public string phone => User.Phone;
+        public string address => User.Address;
+        public string email => User.Email;
 
     }
 }
