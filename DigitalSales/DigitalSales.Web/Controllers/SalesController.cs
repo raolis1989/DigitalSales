@@ -53,11 +53,11 @@ namespace DigitalSales.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Authorize(Roles="Seller, Admin")]
-        public async Task<ActionResult<IEnumerable<SalesViewModel>>> FilterDates()
+        public async Task<ActionResult<IEnumerable<SalesViewModel>>> FilterDates(DateTime dateInit, DateTime dateEnd)
         {
             try
             {
-                var sales = await _saleRepository.ObtainSalesAsync();
+                var sales = await _saleRepository.FilterSalesDates(dateInit, dateEnd);
                 return _mapper.Map<List<SalesViewModel>>(sales);
             }
             catch (Exception ex)
@@ -68,6 +68,26 @@ namespace DigitalSales.Web.Controllers
 
         }
 
+        [HttpGet("[action]")]
+        [EnableCors()]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[Authorize(Roles = "Warehouse, Seller, Admin")]
+        public async Task<ActionResult<IEnumerable<object>>> SalesMonth()
+        {
+            try
+            {
+                var sales = await _saleRepository.SalesMonth();
+
+                return sales;
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest();
+            }
+
+        }
 
         [HttpPost("[action]")]
         [EnableCors()]

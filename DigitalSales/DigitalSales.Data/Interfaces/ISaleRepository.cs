@@ -16,5 +16,7 @@ namespace DigitalSales.Data.Interfaces
 
         Task<List<Sale>> ObtainSalesFilter(string texto);
         Task<List<Sale>> FilterSalesDates(DateTime dateInit, DateTime dateEnd);
+        Task<List<object>> SalesMonth();
+        
     }
 }

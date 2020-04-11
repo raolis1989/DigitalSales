@@ -116,5 +116,18 @@ namespace DigitalSales.Data.Repository
                             .Take(100)
                             .ToListAsync();
         }
+
+        public async  Task<List<object>> SalesMonth()
+        {
+            var sdsd =  await _context.Sales
+                                .GroupBy(s => s.date_time.Month)
+                                .Select(x => new { etiqueta = x.Key.ToString(), valor = x.Sum(v => v.total) })
+                                .OrderByDescending(x => x.etiqueta)
+                                .Take(12)
+                                .ToListAsync();
+            var rtesu =   sdsd.Cast<object>().ToList();
+
+            return rtesu;
+        }
     }
 }
